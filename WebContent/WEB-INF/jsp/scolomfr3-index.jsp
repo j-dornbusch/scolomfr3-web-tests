@@ -1,0 +1,53 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<spring:url value="/scolomfr3/dump" var="dumpVocab"></spring:url>
+<spring:url value="/scolomfr3/trees" var="trees"></spring:url>
+<spring:url value="/scolomfr3/graphs" var="graphs"></spring:url>
+<spring:url value="/scolomfr3/search" var="search"></spring:url>
+<t:layout>
+	<jsp:body>
+	
+
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="jumbotron">
+		<div class="container">
+			<p>Plateforme de test des vocabulaires skos et rdf scolomfr3.</p>
+			<p>Exploitation des vocabulaires avec <a
+						hreflang="https://jena.apache.org/" class="badge">Apache Jena</a>.</p>
+		</div>
+	</div>
+
+	<div class="container">
+		<!-- Example row of columns -->
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Hiérarchies de notions</h2>
+				<p>Tests d'affichage de vocabulaires hiérarchisés (programmes, etc.).</p>
+				<p>
+					<a class="btn btn-default" href="${trees}" role="button">Accéder
+						&raquo;</a>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h2>Graphes </h2>
+				<p>Vérifications des hiérarchies de notions : relations broader/narrower.</p>
+				<p>
+					<a class="btn btn-default" href="${graphs}" role="button">Accéder
+						&raquo;</a>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h2>Recherche </h2>
+				<p>Recherche de ressources par label et affichage de leurs propriétés .</p>
+				<p>
+					<a class="btn btn-default" href="${search}" role="button">Accéder
+						&raquo;</a>
+				</p>
+			</div>
+		</div>
+	</div>
+        
+    </jsp:body>
+</t:layout>
+
