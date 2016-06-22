@@ -12,6 +12,10 @@ body div.container div.row div.tab-content div.tab-pane.active ul {
 body div.container div.row div.tab-content div.tab-pane.active {
 	margin-top: 1em;
 }
+
+span.glyphicon.glyphicon-link {
+	cursor: pointer;
+}
 /* http://bootsnipp.com/snippets/featured/bootstrap-30-treeview */
 .tree, .tree ul {
 	margin: 0;

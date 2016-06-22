@@ -7,7 +7,7 @@
 		<c:forEach var="childNode" items="${node.getChildren()}">
 			<li>
 				${childNode.getData().getRight()} 
-				<span class="glyphicon glyphicon-link" aria-hidden="true" title="${childNode.getData().getLeft()}"  data-toggle="tooltip"></span>
+				<span class="glyphicon glyphicon-link" aria-hidden="true" title="${childNode.getData().getLeft()}"  data-toggle="popover"></span>
 				<c:set var="node"
 					value="${childNode}" scope="request" /> <c:set var="root"
 					value="false" scope="request" /> <jsp:include page="vocablist.jsp" />

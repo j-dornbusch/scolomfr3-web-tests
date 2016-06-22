@@ -47,7 +47,7 @@ $(document).ready(
 				'placement' : 'top'
 			});
 			$('[data-toggle="popover"]').popover({
-				trigger : 'hover',
+				trigger : 'click',
 				'placement' : 'top'
 			});
 		});
