@@ -285,17 +285,18 @@ public class SkosVocabulary extends AbstractVocabulary {
 
 	@Override
 	public Map<String, String> getLabelsForStringPattern(String pattern) {
-		String queryString = "SELECT ?res ?prefLabel WHERE {?res  <http://www.w3.org/2004/02/skos/core#prefLabel> ?prefLabel"
-				+ ".FILTER regex(?prefLabel, \"" + pattern + "\", \"i\") }";
+		String queryString = "SELECT ?res ?label " + "WHERE {?res  ?property ?label" + ".FILTER regex(?label, \""
+				+ pattern + "\", \"i\")"
+				+ " FILTER (?property IN (<http://www.w3.org/2004/02/skos/core#prefLabel>,<http://www.w3.org/2004/02/skos/core#altLabel>))"
+				+ "}";
 		Query query = QueryFactory.create(queryString);
 		Map<String, String> map = new HashMap<>();
 		try (QueryExecution qexec = QueryExecutionFactory.create(query, getModel())) {
 			ResultSet results = qexec.execSelect();
 			for (; results.hasNext();) {
 				QuerySolution soln = results.nextSolution();
-				Literal l = soln.getLiteral("prefLabel");
+				Literal l = soln.getLiteral("label");
 				Resource r = soln.getResource("res");
-				System.out.println(r.getURI() + "-->" + l.getString());
 				map.put(r.getURI(), l.getString());
 			}
 		}
