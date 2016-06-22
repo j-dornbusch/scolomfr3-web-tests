@@ -60,7 +60,6 @@ public class Tree<T> {
 			while (it.hasNext()) {
 				Tree.Node<T> node = (Tree.Node<T>) it.next();
 				if (node.getData().equals(data)) {
-					System.out.println("retrait de " + data);
 					children.remove(node);
 					break;
 				}

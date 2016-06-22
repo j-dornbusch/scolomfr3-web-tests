@@ -59,4 +59,10 @@ public class RdfVocabulary extends AbstractVocabulary {
 		return null;
 	}
 
+	@Override
+	public Map<String, String> getLabelsForStringPattern(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

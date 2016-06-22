@@ -12,6 +12,12 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -72,7 +78,6 @@ public class SkosVocabulary extends AbstractVocabulary {
 		while (stmtIterator.hasNext()) {
 			Statement statement = (Statement) stmtIterator.next();
 			Resource subject = statement.getSubject();
-			RDFNode object = statement.getObject();
 			if (!map.containsKey(subject.getURI())) {
 				map.put(subject.getURI(), getPrefLabelForResource(subject));
 			}
@@ -92,7 +97,6 @@ public class SkosVocabulary extends AbstractVocabulary {
 		while (stmtIterator.hasNext()) {
 			Statement statement = (Statement) stmtIterator.next();
 			Resource subject = statement.getSubject();
-			RDFNode object = statement.getObject();
 			if (!map.containsKey(subject.getURI())) {
 				map.put(subject.getURI(), getPrefLabelForResource(subject));
 			}
@@ -148,9 +152,8 @@ public class SkosVocabulary extends AbstractVocabulary {
 		Tree<Pair<String, String>> tree = new Tree<>(rootData);
 		List<Resource> children = getChildrenOfResource(resource, useMember);
 		addChildrenRecursively(children, tree.getRoot());
-		// Si un noeud a été placé à la racine du vocabulaire en tant que
-		// member
-		// Et qu'on le découvre en parcourant l'arbre,
+		// Si un noeud a été placé à la racine du vocabulaire en tant que member
+		// et qu'on le retrouve en parcourant l'arbre,
 		// on le retire de la racine
 		if (useMember) {
 			List<Pair<String, String>> toRemove = new ArrayList<>();
@@ -278,6 +281,26 @@ public class SkosVocabulary extends AbstractVocabulary {
 			}
 		}
 		return missingRelations;
+	}
+
+	@Override
+	public Map<String, String> getLabelsForStringPattern(String pattern) {
+		String queryString = "SELECT ?res ?prefLabel WHERE {?res  <http://www.w3.org/2004/02/skos/core#prefLabel> ?prefLabel"
+				+ ".FILTER regex(?prefLabel, \"" + pattern + "\", \"i\") }";
+		Query query = QueryFactory.create(queryString);
+		Map<String, String> map = new HashMap<>();
+		try (QueryExecution qexec = QueryExecutionFactory.create(query, getModel())) {
+			ResultSet results = qexec.execSelect();
+			for (; results.hasNext();) {
+				QuerySolution soln = results.nextSolution();
+				Literal l = soln.getLiteral("prefLabel");
+				Resource r = soln.getResource("res");
+				System.out.println(r.getURI() + "-->" + l.getString());
+				map.put(r.getURI(), l.getString());
+			}
+		}
+
+		return map;
 	}
 
 }

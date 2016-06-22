@@ -19,10 +19,10 @@
 		<div class="row">
 		<ul class="nav nav-pills" role="tablist" id="graph-control-tabs">
   			<li role="presentation" class="active"><a
-						href="#missing-narrower">Relations narrower manquantes</a></li>
-  			<li role="presentation"><a href="#missing-broader">Relations broader manquantes</a></li>
-  			<li role="presentation"><a href="#complete-narrower">Relations narrower</a></li>
-  			<li role="presentation"><a href="#complete-broader">Relations broader </a></li>
+						href="#missing-narrower">Relations narrower manquantes (${missingNarrower.size()})</a></li>
+  			<li role="presentation"><a href="#missing-broader">Relations broader manquantes (${missingBroader.size()})</a></li>
+  			<li role="presentation"><a href="#complete-narrower">Toutes les relations narrower (${revertedNarrower.size()})</a></li>
+  			<li role="presentation"><a href="#complete-broader">Toutes les relations broader (${revertedBroader.size()})</a></li>
 		</ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="missing-narrower">

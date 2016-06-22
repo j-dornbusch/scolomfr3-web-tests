@@ -29,4 +29,6 @@ public interface Vocabulary {
 	List<Pair<String, String>> getMissingBroaderRelations();
 
 	Tree<Pair<String, String>> getTreeForUri(String uri, boolean userMember);
+
+	Map<String, String> getLabelsForStringPattern(String query);
 }

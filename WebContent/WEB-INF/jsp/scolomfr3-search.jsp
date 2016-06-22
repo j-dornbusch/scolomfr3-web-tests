@@ -24,7 +24,7 @@
 			            <input class="form-control" name="query" id="query"
 									placeholder="prefLabel ou altLabel" type="text">              
 			        </div>
-			        <button type="submit" class="btn btn-primary">Rechercher</button>
+			        <button type="submit" class="btn btn-primary pull-right">Rechercher</button>
 			    </fieldset>
 			</form>
 				</div>
