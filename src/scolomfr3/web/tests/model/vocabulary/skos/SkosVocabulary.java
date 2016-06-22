@@ -103,7 +103,6 @@ public class SkosVocabulary extends AbstractVocabulary {
 			Resource subject = statement.getSubject();
 			map.remove(subject.getURI());
 		}
-		
 
 		return map;
 
@@ -149,7 +148,36 @@ public class SkosVocabulary extends AbstractVocabulary {
 		Tree<Pair<String, String>> tree = new Tree<>(rootData);
 		List<Resource> children = getChildrenOfResource(resource, useMember);
 		addChildrenRecursively(children, tree.getRoot());
+		// Si un noeud a été placé à la racine du vocabulaire en tant que
+		// member
+		// Et qu'on le découvre en parcourant l'arbre,
+		// on le retire de la racine
+		if (useMember) {
+			List<Pair<String, String>> toRemove = new ArrayList<>();
+			findEntriesToRemoveRecursively(tree.getRoot().getChildren(), true, toRemove);
+			Iterator<Pair<String, String>> it = toRemove.iterator();
+			while (it.hasNext()) {
+				tree.getRoot().removeChild(it.next());
+
+			}
+		}
+
 		return tree;
+	}
+
+	private void findEntriesToRemoveRecursively(List<Node<Pair<String, String>>> children, Boolean firstLevel,
+			List<Pair<String, String>> toRemove) {
+		Iterator<Node<Pair<String, String>>> it = children.iterator();
+
+		while (it.hasNext()) {
+
+			Node<Pair<String, String>> node = it.next();
+			if (!firstLevel) {
+				toRemove.add(node.getData());
+			}
+			findEntriesToRemoveRecursively(node.getChildren(), false, toRemove);
+		}
+
 	}
 
 	private void addChildrenRecursively(List<Resource> children, Node<Pair<String, String>> parent) {
@@ -158,6 +186,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 			Resource child = (Resource) it.next();
 			String label = getPrefLabelForResource(child);
 			Pair<String, String> data = new ImmutablePair<String, String>(child.getURI().toString(), label);
+
 			Node<Pair<String, String>> childNode = new Node<>();
 			childNode.setdata(data);
 			List<Resource> grandChildren = getChildrenOfResource(child, false);

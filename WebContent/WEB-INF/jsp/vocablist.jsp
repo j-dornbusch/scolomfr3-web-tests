@@ -5,8 +5,10 @@
 <c:if test="${fn:length(node.getChildren()) gt 0}">
 	<ul <c:if test="${root==true}">class="vocab-tree"</c:if>>
 		<c:forEach var="childNode" items="${node.getChildren()}">
-			<li title="${childNode.getData().getLeft()}">
-				${childNode.getData().getRight()} <c:set var="node"
+			<li>
+				${childNode.getData().getRight()} 
+				<span class="glyphicon glyphicon-link" aria-hidden="true" title="${childNode.getData().getLeft()}"  data-toggle="tooltip"></span>
+				<c:set var="node"
 					value="${childNode}" scope="request" /> <c:set var="root"
 					value="false" scope="request" /> <jsp:include page="vocablist.jsp" />
 			</li>

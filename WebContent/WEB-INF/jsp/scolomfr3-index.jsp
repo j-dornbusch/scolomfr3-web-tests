@@ -13,8 +13,10 @@
 	<div class="jumbotron">
 		<div class="container">
 			<p>Plateforme de test des vocabulaires skos et rdf scolomfr3.</p>
-			<p>Exploitation des vocabulaires avec <a
-						hreflang="https://jena.apache.org/" class="badge">Apache Jena</a>.</p>
+			<p>Exploitation des vocabulaires sous <a
+						href="https://jena.apache.org/" class="badge">Apache Jena</a>.</p>
+			<p>Le code source de cette plateforme (Maven, Spring, Boostrap) est disponible sur  <a
+						href="https://github.com/j-dornbusch/scolomfr3-web-tests">Github</a>.</p>
 		</div>
 	</div>
 
@@ -22,8 +24,8 @@
 		<!-- Example row of columns -->
 		<div class="row">
 			<div class="col-md-4">
-				<h2>Hiérarchies de notions</h2>
-				<p>Tests d'affichage de vocabulaires hiérarchisés (programmes, etc.).</p>
+				<h2>Affichage</h2>
+				<p>Affichage de vocabulaires, visualisation des hiérarchies.</p>
 				<p>
 					<a class="btn btn-default" href="${trees}" role="button">Accéder
 						&raquo;</a>

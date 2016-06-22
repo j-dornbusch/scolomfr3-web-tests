@@ -19,19 +19,20 @@
 		<div class="list-group">
   			<a href="${trees}?use_member=true"
 						class="list-group-item <c:if	test="${useMember}">active</c:if>">
-    		<h4 class="list-group-item-heading">Entrée par les arcs member</h4>
+    		<h4 class="list-group-item-heading">Entrée par les vocabulaires</h4>
     		<p class="list-group-item-text">Les entrées du menu sont les prédécesseurs du graphe des propriétés <span
 								class="badge">member</span>.</p>
   			</a>
   			<a href="${trees}?use_member=false"
 						class="list-group-item <c:if	test="${!useMember}">active</c:if>">
-    		<h4 class="list-group-item-heading">Entrée par les racines du graphe des narrower</h4>
+    		<h4 class="list-group-item-heading">Détection des racines</h4>
     		<p class="list-group-item-text">Les entrées du menu sont les prédécesseurs du graphe des propriétés <span
 								class="badge">narrower</span> qui ne sont jamais prédécesseurs dans le graphe des propriétés <span
 								class="badge">broader</span>.</p>
   			</a>
 				</div>
 		<div class="row">
+					<div class="container">
 		
 		<div class="panel panel-success">
   <div class="panel-heading">
@@ -40,7 +41,7 @@
 			<select name="uri" id="root-uri-selector" class="form-control">
 			<c:forEach items="${treeRoots}" var="resource" varStatus="status">
 		<option value="${resource.getKey()}"
-											<c:if	test="${resource.getKey() eq uri}">selected="selected"</c:if>>
+												<c:if	test="${resource.getKey() eq uri}">selected="selected"</c:if>>
 		${resource.getValue()}
 		</option>
 	</c:forEach>
@@ -64,6 +65,7 @@
 </div>
 			
 		</div>
+				</div>
 	</div>
        
     </div>

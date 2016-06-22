@@ -53,7 +53,7 @@ body {
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${index}">Recette ScoLomfr3</a>
+				<a class="navbar-brand" href="${index}">Recette ScoLomfr3 - plateforme de test</a>
 			</div>
 
 		</div>

@@ -1,6 +1,7 @@
 package scolomfr3.web.tests.model.utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +53,19 @@ public class Tree<T> {
 
 		public void setParent(Node<T> parent) {
 			this.parent = parent;
+		}
+
+		public void removeChild(T data) {
+			Iterator<Node<T>> it = children.iterator();
+			while (it.hasNext()) {
+				Tree.Node<T> node = (Tree.Node<T>) it.next();
+				if (node.getData().equals(data)) {
+					System.out.println("retrait de " + data);
+					children.remove(node);
+					break;
+				}
+			}
+
 		}
 	}
 }
