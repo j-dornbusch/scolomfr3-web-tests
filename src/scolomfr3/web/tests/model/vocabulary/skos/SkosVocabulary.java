@@ -285,9 +285,10 @@ public class SkosVocabulary extends AbstractVocabulary {
 
 	@Override
 	public Map<String, String> getLabelsForStringPattern(String pattern) {
+		pattern = pattern.replace('(', '.').replace(')', '.');
 		String queryString = "SELECT ?res ?label " + "WHERE {?res  ?property ?label" + ".FILTER regex(?label, \""
 				+ pattern + "\", \"i\")"
-				+ " FILTER (?property IN (<http://www.w3.org/2004/02/skos/core#prefLabel>,<http://www.w3.org/2004/02/skos/core#altLabel>))"
+				+ " FILTER (?property IN (<http://www.w3.org/2004/02/skos/core#prefLabel>,<http://www.w3.org/2004/02/skos/core#altLabel>,<http://www.w3.org/2004/02/skos/core#scopeNote>))"
 				+ "}";
 		Query query = QueryFactory.create(queryString);
 		Map<String, String> map = new HashMap<>();
@@ -304,4 +305,26 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return map;
 	}
 
+	@Override
+	public Map<String, String> getInformationForUri(String uri) {
+		Map<String, String> list = new TreeMap<>();
+		Resource subject = getModel().getResource(uri);
+		Selector selector = new SimpleSelector(subject, null, (RDFNode) null);
+		StmtIterator stmts = getModel().listStatements(selector);
+		while (stmts.hasNext()) {
+			Statement statement = (Statement) stmts.next();
+			String value = "";
+			if (statement.getObject().isLiteral()) {
+				value = ((Literal) statement.getObject()).getString();
+			} else {
+				value = statement.getObject().toString();
+			}
+			if (list.containsKey((statement.getPredicate().getLocalName()))) {
+				value = list.get((statement.getPredicate().getLocalName())) + "||" + value;
+			}
+			list.put(statement.getPredicate().getLocalName(), value);
+		}
+
+		return list;
+	}
 }

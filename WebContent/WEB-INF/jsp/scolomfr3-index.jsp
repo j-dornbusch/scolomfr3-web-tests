@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<spring:url value="/scolomfr3/dump" var="dumpVocab"></spring:url>
 <spring:url value="/scolomfr3/trees" var="trees"></spring:url>
 <spring:url value="/scolomfr3/graphs" var="graphs"></spring:url>
 <spring:url value="/scolomfr3/search" var="search"></spring:url>
@@ -14,7 +13,7 @@
 		<div class="container">
 			<p>Plateforme de test des vocabulaires skos et rdf scolomfr3.</p>
 			<p>Exploitation des vocabulaires sous <a
-						href="https://jena.apache.org/" class="badge">Apache Jena</a>.</p>
+						href="https://jena.apache.org/">Apache Jena</a>.</p>
 			<p>Le code source de cette plateforme (Maven, Spring, Boostrap) est disponible sur  <a
 						href="https://github.com/j-dornbusch/scolomfr3-web-tests">Github</a>.</p>
 		</div>
@@ -32,14 +31,6 @@
 				</p>
 			</div>
 			<div class="col-md-4">
-				<h2>Graphes </h2>
-				<p>Vérifications des hiérarchies de notions : relations broader/narrower.</p>
-				<p>
-					<a class="btn btn-default" href="${graphs}" role="button">Accéder
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-md-4">
 				<h2>Recherche </h2>
 				<p>Recherche de ressources par label et affichage de leurs propriétés .</p>
 				<p>
@@ -47,6 +38,15 @@
 						&raquo;</a>
 				</p>
 			</div>
+			<div class="col-md-4">
+				<h2>Graphes </h2>
+				<p>Vérifications des hiérarchies de notions : relations broader/narrower.</p>
+				<p>
+					<a class="btn btn-default" href="${graphs}" role="button">Accéder
+						&raquo;</a>
+				</p>
+			</div>
+			
 		</div>
 	</div>
         

@@ -1,17 +1,19 @@
 package scolomfr3.web.tests.controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import scolomfr3.web.tests.model.vocabulary.Vocabulary;
 
@@ -22,25 +24,33 @@ public class SearchControler {
 	private Vocabulary skosVocabulary;
 
 	@RequestMapping("/search")
-	public ModelAndView displaySearchPage() {
+	public String displaySearchPage(@RequestParam(name = "query", required = false, defaultValue = "") String query,
+			@RequestParam(name = "uri", required = false, defaultValue = "") String uri, Model model) {
 
-		ModelAndView modelAndView = new ModelAndView("scolomfr3-search");
-
-		return modelAndView;
+		Map<String, Map<String, String>> results = new HashMap<>();
+		model.addAttribute("searchBy", "query");
+		Set<String> uris = new HashSet<>();
+		if (!StringUtils.isEmpty(uri)) {
+			model.addAttribute("uri", uri);
+			model.addAttribute("searchBy", "uri");
+			uris.add(uri);
+		} else if (!StringUtils.isEmpty(query)) {
+			uris = skosVocabulary.getLabelsForStringPattern(query).keySet();
+			model.addAttribute("query", query);
+		}
+		Iterator<String> it = uris.iterator();
+		while (it.hasNext()) {
+			String entryUri = (String) it.next();
+			results.put(entryUri, skosVocabulary.getInformationForUri(entryUri));
+		}
+		model.addAttribute("results", results);
+		model.addAttribute("page", "search");
+		return "scolomfr3-search";
 	}
 
-	@RequestMapping(value = "/search/autocomplete/{query}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Map<String, String> autocompleteOnLabels(@PathVariable String query) {
-		Map<String, String> labels = skosVocabulary.getLabelsForStringPattern(query);
-		// ObjectMapper mapper = new ObjectMapper();
-		// String json = "";
-		// try {
-		// json = mapper.writeValueAsString(labels);
-		// System.out.println("json " + json);
-		// } catch (JsonProcessingException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		return labels;
+	@RequestMapping(value = "/search/autocomplete", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody Map<String, String> autocompleteOnLabels(
+			@RequestParam(name = "query", required = false, defaultValue = "") String query) {
+		return skosVocabulary.getLabelsForStringPattern(query);
 	}
 }

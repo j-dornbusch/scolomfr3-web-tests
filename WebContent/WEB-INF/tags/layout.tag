@@ -1,5 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@tag description="Page layout" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<spring:url value="/scolomfr3/trees" var="trees"></spring:url>
+<spring:url value="/scolomfr3/graphs" var="graphs"></spring:url>
+<spring:url value="/scolomfr3/search" var="search"></spring:url>
 <spring:url value="/resources" var="baseResourcesPath" />
 <spring:url value="/scolomfr3/index" var="index"></spring:url>
 <spring:url
@@ -53,7 +57,21 @@ body {
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${index}">Recette ScoLomfr3 - plateforme de test</a>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="navbar">
+					<a class="navbar-brand" href="${index}">Recette ScoLomfr3 -
+						plateforme de test</a>
+					<ul class="nav navbar-nav">
+						<li
+							<c:if test="${page=='trees'}">class="active"</c:if>><a href="${trees}">Affichage</a></li>
+						<li
+							<c:if test="${page=='search'}">class="active"</c:if>><a href="${search}">Recherche</a></li>
+						<li
+							<c:if test="${page=='graphs'}">class="active"</c:if>><a href="${graphs}">Graphes</a></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
 			</div>
 
 		</div>

@@ -9,7 +9,7 @@ public class IndexController {
 	@RequestMapping("/index")
 	public ModelAndView index() {
 
-		return new ModelAndView("scolomfr3-index");
+		return new ModelAndView("scolomfr3-index", "page","index");
 	}
 
 }

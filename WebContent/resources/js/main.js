@@ -12,42 +12,54 @@ $(document).ready(
 			/**
 			 * http://www.bootply.com/ljIOxm3qDi
 			 */
-			var states = [ 'Alabama', 'Alaska', 'Arizona', 'Arkansas',
-					'California', 'Colorado', 'Connecticut', 'Delaware',
-					'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois',
-					'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-					'Maine', 'Maryland', 'Massachusetts', 'Michigan',
-					'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-					'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
-					'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-					'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania',
-					'Rhode Island', 'South Carolina', 'South Dakota',
-					'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia',
-					'Washington', 'West Virginia', 'Wisconsin', 'Wyoming' ];
-
-			// constructs the suggestion engine
 			var labels = new Bloodhound({
 				datumTokenizer : Bloodhound.tokenizers.obj.whitespace('value'),
 				queryTokenizer : Bloodhound.tokenizers.whitespace,
 				remote : {
-					url : 'search/autocomplete/%QUERY.json',
+					url : 'search/autocomplete?query=%QUERY',
 					wildcard : '%QUERY'
 				}
 			});
 
-			$('#query').typeahead({
-				hint : true,
-				highlight : true,
-				minLength : 1
-			}, {
-				name : 'states',
-				source : labels
-			});
 			$('[data-toggle="tooltip"]').tooltip({
-				'placement' : 'top'
+				'placement' : 'top',
+				"html" : true
 			});
 			$('[data-toggle="popover"]').popover({
 				trigger : 'click',
-				'placement' : 'top'
+				'placement' : 'top',
+				"html" : true
 			});
+			var updatelabelSearchField = function(e) {
+				var val = $('#search-type-toggle').prop('checked');
+				switch (val) {
+				case true:
+					$("#uri").addClass("hidden-form-control")
+							.removeAttr("name").hide();
+					$("#query").removeClass("hidden-form-control").attr("name",
+							"query").show();
+					$('#query').typeahead({
+						hint : true,
+						highlight : true,
+						minLength : 1
+					}, {
+						source : labels
+					});
+					break;
+				case false:
+					$("#query").addClass("hidden-form-control").removeAttr(
+							"name");
+					$('#query').typeahead('destroy').hide();
+					$("#uri").removeClass("hidden-form-control").attr("name",
+							"uri").show();
+					break;
+				}
+			};
+			$('#search-type-toggle').bootstrapToggle({
+				on : 'Recherche plein texte',
+				off : 'Recherche par uri',
+				width : 200,
+				height : 40
+			}).change(updatelabelSearchField);
+			updatelabelSearchField();
 		});

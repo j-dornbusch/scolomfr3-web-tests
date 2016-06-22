@@ -28,6 +28,7 @@ public class HierarchicalGraphController {
 		modelAndView.addObject("revertedBroader", skosVocabulary.getRevertedBroaderRelations());
 		modelAndView.addObject("missingNarrower", skosVocabulary.getMissingNarrowerRelations());
 		modelAndView.addObject("missingBroader", skosVocabulary.getMissingBroaderRelations());
+		modelAndView.addObject("page", "graphs");
 		return modelAndView;
 	}
 }

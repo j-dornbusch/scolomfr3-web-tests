@@ -31,4 +31,6 @@ public interface Vocabulary {
 	Tree<Pair<String, String>> getTreeForUri(String uri, boolean userMember);
 
 	Map<String, String> getLabelsForStringPattern(String query);
+
+	Map<String, String> getInformationForUri(String uri);
 }

@@ -34,6 +34,7 @@ public class TreeParserController {
 		modelAndView.addObject("uri", uri);
 		modelAndView.addObject("useMember", useMember);
 		modelAndView.addObject("tree", tree);
+		modelAndView.addObject("page", "trees");
 		return modelAndView;
 	}
 }

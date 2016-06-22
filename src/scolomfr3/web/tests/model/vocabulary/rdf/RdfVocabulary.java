@@ -65,4 +65,10 @@ public class RdfVocabulary extends AbstractVocabulary {
 		return null;
 	}
 
+	@Override
+	public Map<String, String> getInformationForUri(String uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
