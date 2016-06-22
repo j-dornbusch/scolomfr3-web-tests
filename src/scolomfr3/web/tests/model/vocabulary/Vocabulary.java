@@ -18,7 +18,7 @@ public interface Vocabulary {
 
 	Map<String, String> getTreeRoots();
 
-	Tree<Pair<String, String>> getTreeForUri(String uri);
+	Map<String, String> getVocabRoots();
 
 	List<Pair<String, String>> getRevertedNarrowerRelations();
 
@@ -27,4 +27,6 @@ public interface Vocabulary {
 	List<Pair<String, String>> getMissingNarrowerRelations();
 
 	List<Pair<String, String>> getMissingBroaderRelations();
+
+	Tree<Pair<String, String>> getTreeForUri(String uri, boolean userMember);
 }

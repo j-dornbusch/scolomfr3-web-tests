@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -61,9 +62,28 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return completeContent;
 	}
 
+	public Map<String, String> getVocabRoots() {
+		Model model = this.getModel();
+		Map<String, String> map = new TreeMap<>();
+
+		Property member = model.getProperty("http://www.w3.org/2004/02/skos/core#", "member");
+		Selector memberSelector = new SimpleSelector(null, member, (RDFNode) null);
+		StmtIterator stmtIterator = model.listStatements(memberSelector);
+		while (stmtIterator.hasNext()) {
+			Statement statement = (Statement) stmtIterator.next();
+			Resource subject = statement.getSubject();
+			RDFNode object = statement.getObject();
+			if (!map.containsKey(subject.getURI())) {
+				map.put(subject.getURI(), getPrefLabelForResource(subject));
+			}
+		}
+		return map;
+	}
+
 	public Map<String, String> getTreeRoots() {
 		Model model = this.getModel();
-		Map<String, String> map = new HashMap<>();
+		Map<String, String> map = new TreeMap<>();
+
 		Property broader = model.getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
 		Property narrower = model.getProperty("http://www.w3.org/2004/02/skos/core#", "narrower");
 		Selector broaderSelector = new SimpleSelector(null, broader, (RDFNode) null);
@@ -83,6 +103,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 			Resource subject = statement.getSubject();
 			map.remove(subject.getURI());
 		}
+		
 
 		return map;
 
@@ -99,11 +120,12 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return "N.C.";
 	}
 
-	private List<Resource> getChildrenOfResource(Resource subject) {
+	private List<Resource> getChildrenOfResource(Resource subject, boolean useMember) {
 		List<Resource> list = new ArrayList<Resource>();
-		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "narrower");
-		Selector broaderSelector = new SimpleSelector(subject, broader, (RDFNode) null);
-		StmtIterator stmts = getModel().listStatements(broaderSelector);
+		Property children = getModel().getProperty("http://www.w3.org/2004/02/skos/core#",
+				useMember ? "member" : "narrower");
+		Selector childrenSelector = new SimpleSelector(subject, children, (RDFNode) null);
+		StmtIterator stmts = getModel().listStatements(childrenSelector);
 		while (stmts.hasNext()) {
 			Statement statement = (Statement) stmts.next();
 			list.add((Resource) statement.getObject());
@@ -120,12 +142,12 @@ public class SkosVocabulary extends AbstractVocabulary {
 	}
 
 	@Override
-	public Tree<Pair<String, String>> getTreeForUri(String uri) {
+	public Tree<Pair<String, String>> getTreeForUri(String uri, boolean useMember) {
 		Resource resource = getModel().getResource(uri);
 		String label = getPrefLabelForResource(resource);
 		Pair<String, String> rootData = new ImmutablePair<String, String>(uri, label);
 		Tree<Pair<String, String>> tree = new Tree<>(rootData);
-		List<Resource> children = getChildrenOfResource(resource);
+		List<Resource> children = getChildrenOfResource(resource, useMember);
 		addChildrenRecursively(children, tree.getRoot());
 		return tree;
 	}
@@ -138,7 +160,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 			Pair<String, String> data = new ImmutablePair<String, String>(child.getURI().toString(), label);
 			Node<Pair<String, String>> childNode = new Node<>();
 			childNode.setdata(data);
-			List<Resource> grandChildren = getChildrenOfResource(child);
+			List<Resource> grandChildren = getChildrenOfResource(child, false);
 			addChildrenRecursively(grandChildren, childNode);
 			parent.addChild(childNode);
 		}

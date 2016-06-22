@@ -21,17 +21,18 @@ public class TreeParserController {
 	private Vocabulary skosVocabulary;
 
 	@RequestMapping("/trees")
-	public ModelAndView completeSkosParsing(@RequestParam(name = "uri", required = false) String uri) {
-
-		Map<String, String> treeRoots = skosVocabulary.getTreeRoots();
+	public ModelAndView completeSkosParsing(@RequestParam(name = "uri", required = false) String uri,
+			@RequestParam(name = "use_member", required = false, defaultValue = "true") Boolean useMember) {
+		Map<String, String> treeRoots = useMember ? skosVocabulary.getVocabRoots() : skosVocabulary.getTreeRoots();
 		if (StringUtils.isEmpty(uri)) {
 			Set<String> uris = treeRoots.keySet();
 			uri = (String) uris.toArray()[0];
 		}
-		Tree<Pair<String, String>> tree = skosVocabulary.getTreeForUri(uri);
+		Tree<Pair<String, String>> tree = skosVocabulary.getTreeForUri(uri, useMember);
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-trees");
 		modelAndView.addObject("treeRoots", treeRoots);
 		modelAndView.addObject("uri", uri);
+		modelAndView.addObject("useMember", useMember);
 		modelAndView.addObject("tree", tree);
 		return modelAndView;
 	}

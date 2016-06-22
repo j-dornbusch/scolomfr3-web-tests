@@ -24,12 +24,6 @@ public class RdfVocabulary extends AbstractVocabulary {
 	}
 
 	@Override
-	public Tree getTreeForUri(String uri) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Pair<String, String>> getRevertedNarrowerRelations() {
 		// TODO Auto-generated method stub
 		return null;
@@ -49,6 +43,18 @@ public class RdfVocabulary extends AbstractVocabulary {
 
 	@Override
 	public List<Pair<String, String>> getMissingBroaderRelations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getVocabRoots() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Tree<Pair<String, String>> getTreeForUri(String uri, boolean userMember) {
 		// TODO Auto-generated method stub
 		return null;
 	}
