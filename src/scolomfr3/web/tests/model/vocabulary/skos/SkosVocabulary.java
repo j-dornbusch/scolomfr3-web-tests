@@ -338,7 +338,22 @@ public class SkosVocabulary extends AbstractVocabulary {
 			}
 			list.put(statement.getPredicate().getLocalName(), value);
 		}
-
+		selector = new SimpleSelector(null, null, subject);
+		stmts = getModel().listStatements(selector);
+		while (stmts.hasNext()) {
+			Statement statement = (Statement) stmts.next();
+			String value = "";
+			if (statement.getObject().isLiteral()) {
+				value = ((Literal) statement.getObject()).getString();
+			} else {
+				value = statement.getObject().toString();
+			}
+			String predicateName = '|' + statement.getPredicate().getLocalName();
+			if (list.containsKey(predicateName)) {
+				value = list.get(predicateName) + "||" + value;
+			}
+			list.put(predicateName, value);
+		}
 		return list;
 	}
 }

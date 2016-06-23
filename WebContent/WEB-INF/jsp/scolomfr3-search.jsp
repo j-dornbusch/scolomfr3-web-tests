@@ -57,9 +57,22 @@
 		<c:forEach items="${result.value}" var="entry">
 		
   			
-							<li class="list-group-item"><span
-								class="label label-success pull-left">${entry.key}</span>&nbsp;<span
-								class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+							<li class="list-group-item">
+							<c:set var="entryKeyToDisplay"
+							value="${fn:replace(entry.key, 
+                                '|', '')}" />
+							<span class="label label-success pull-left">${entryKeyToDisplay}</span>&nbsp;
+								<c:choose>
+											  <c:when
+										test="${fn:startsWith(entry.key, '|')}">
+										<span class="glyphicon glyphicon-arrow-left"
+											aria-hidden="true"></span>
+											  </c:when>
+											  <c:otherwise>
+										<span class="glyphicon glyphicon-arrow-right"
+											aria-hidden="true"></span>
+											  </c:otherwise>
+											</c:choose>
 								<c:set var="splittedEntries"
 									value="${fn:split(entry.value, '||')}" />
 									
@@ -80,7 +93,8 @@
   
 
 								
-						</c:forEach></li>
+						</c:forEach>
+							</li>
 					</c:forEach>
 					</ul>
 		</c:forEach>
