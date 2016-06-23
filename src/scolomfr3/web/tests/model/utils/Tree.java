@@ -5,6 +5,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Classe utilitaire, structure d'arbre
+ * 
+ * @author joachim
+ *
+ * @param <T>
+ */
 public class Tree<T> {
 	private Node<T> root;
 

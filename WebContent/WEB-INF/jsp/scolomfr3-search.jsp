@@ -10,9 +10,8 @@
 	<jsp:body>
 	<div class="container">
 		<div class="row">
-			<h2>Recherche de ressources & navigation</h2>
-			<p class="lead">Les ressources peuvent être recherchées par <span
-						class="badge">prefLabel</span> et par <span class="badge">altlabel</span> afin d'afficher les propriétés dont elles sont sujet ou objet.</p>
+			<h2>Recherche de ressources &amp; navigation</h2>
+			<p class="lead">Deux options sont proposées : les ressources peuvent être recherchées soit en texte libre (sparql + expression régulière), soit par URI, afin d'afficher leurs propriétés.</p>
 		</div>
 		<div class="row">
 		<div class="well">		
@@ -43,7 +42,7 @@
 			</form>
 				</div>
 </div>
-<p class="lead">Résultats : ${results.size()}</p>
+<p class="lead">Résultat(s) : ${results.size()}</p>
 		<div>
 		
 		<c:forEach items="${results}" var="result">

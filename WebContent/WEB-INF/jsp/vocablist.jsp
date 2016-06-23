@@ -6,7 +6,7 @@
 <c:if test="${fn:length(node.getChildren()) gt 0}">
 	<ul <c:if test="${root==true}">class="vocab-tree"</c:if>>
 		<c:forEach var="childNode" items="${node.getChildren()}">
-			<li>${childNode.getData().getRight()}<span
+			<li>${childNode.getData().getRight()}&nbsp;<span
 				class="glyphicon glyphicon-link" aria-hidden="true"
 				title='<a href="${search}?uri=${childNode.getData().getLeft()}">${childNode.getData().getLeft()}</a>'
 				data-toggle="popover"></span> <c:set var="node" value="${childNode}"

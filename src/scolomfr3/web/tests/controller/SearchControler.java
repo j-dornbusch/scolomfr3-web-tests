@@ -26,15 +26,18 @@ public class SearchControler {
 	@RequestMapping("/search")
 	public String displaySearchPage(@RequestParam(name = "query", required = false, defaultValue = "") String query,
 			@RequestParam(name = "uri", required = false, defaultValue = "") String uri, Model model) {
-
+		// La recherche est faite soit par uri, soit par query en language
+		// naturel
 		Map<String, Map<String, String>> results = new HashMap<>();
 		model.addAttribute("searchBy", "query");
 		Set<String> uris = new HashSet<>();
+		// Si une uri est fournie, elle est prioritaire
 		if (!StringUtils.isEmpty(uri)) {
 			model.addAttribute("uri", uri);
 			model.addAttribute("searchBy", "uri");
 			uris.add(uri);
 		} else if (!StringUtils.isEmpty(query)) {
+			// Sinon, par défaut, on cherche par query
 			uris = skosVocabulary.getLabelsForStringPattern(query).keySet();
 			model.addAttribute("query", query);
 		}

@@ -6,16 +6,9 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import scolomfr3.web.tests.model.utils.Tree;
-import scolomfr3.web.tests.model.utils.Triple;
 import scolomfr3.web.tests.model.vocabulary.AbstractVocabulary;
 
 public class RdfVocabulary extends AbstractVocabulary {
-
-	@Override
-	public List<Triple<String, String, String>> getCompleteContent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Map<String, String> getTreeRoots() {

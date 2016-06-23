@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<h2>Affichage</h2>
-				<p>Affichage de vocabulaires, visualisation des hiérarchies.</p>
+				<p>Affichage de vocabulaires, parcours et visualisation des hiérarchies.</p>
 				<p>
 					<a class="btn btn-default" href="${trees}" role="button">Accéder
 						&raquo;</a>
@@ -32,7 +32,7 @@
 			</div>
 			<div class="col-md-4">
 				<h2>Recherche </h2>
-				<p>Recherche de ressources par label et affichage de leurs propriétés .</p>
+				<p>Recherche de ressources (plein texte ou par URI) et affichage de leurs propriétés .</p>
 				<p>
 					<a class="btn btn-default" href="${search}" role="button">Accéder
 						&raquo;</a>

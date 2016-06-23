@@ -1,5 +1,13 @@
 package scolomfr3.web.tests.model.utils;
 
+/**
+ * Classe utilitaire, fournit une structure de triplet indépendante de toute
+ * librairie
+ *
+ * @param <F>
+ * @param <S>
+ * @param <T>
+ */
 public class Triple<F, S, T> {
 
 	private final F first;

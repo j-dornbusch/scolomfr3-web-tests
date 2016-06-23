@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -30,44 +29,15 @@ import org.apache.jena.rdf.model.StmtIterator;
 
 import scolomfr3.web.tests.model.utils.Tree;
 import scolomfr3.web.tests.model.utils.Tree.Node;
-import scolomfr3.web.tests.model.utils.Triple;
 import scolomfr3.web.tests.model.vocabulary.AbstractVocabulary;
 
 public class SkosVocabulary extends AbstractVocabulary {
 
-	@Override
-	public List<Triple<String, String, String>> getCompleteContent() {
-		Model model = this.getModel();
-
-		List<Triple<String, String, String>> completeContent = new LinkedList<>();
-
-		StmtIterator iter = model.listStatements();
-		Property prefLabel = model.getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
-
-		while (iter.hasNext()) {
-			Statement stmt = iter.nextStatement(); // get next statement
-			Resource subject = stmt.getSubject(); // get the subject
-			Property predicate = stmt.getPredicate(); // get the predicate
-			RDFNode object = stmt.getObject(); // get the object
-			String subjectString = subject.toString();
-			if (subject instanceof Resource) {
-				Selector selector = new SimpleSelector(subject, prefLabel, object);
-				StmtIterator stmtIterator = model.listStatements(selector);
-				if (stmtIterator.hasNext()) {
-					Statement statement = (Statement) stmtIterator.next();
-					if (statement.getObject() instanceof Resource) {
-						subjectString = statement.getObject().asResource().toString();
-					} else {
-						subjectString = statement.getObject().asLiteral().toString();
-					}
-
-				}
-			}
-			completeContent.add(Triple.create(subjectString, predicate.toString(), object.toString()));
-		}
-		return completeContent;
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#getVocabRoots()
+	 */
 	public Map<String, String> getVocabRoots() {
 		Model model = this.getModel();
 		Map<String, String> map = new TreeMap<>();
@@ -85,6 +55,11 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return map;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#getTreeRoots()
+	 */
 	public Map<String, String> getTreeRoots() {
 		Model model = this.getModel();
 		Map<String, String> map = new TreeMap<>();
@@ -112,6 +87,11 @@ public class SkosVocabulary extends AbstractVocabulary {
 
 	}
 
+	/**
+	 * @param subject
+	 *            La ressource considérée
+	 * @return Le premier preflabel trouvé (quelle que soit la langue)
+	 */
 	private String getPrefLabelForResource(Resource subject) {
 		Property prefLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
 		Selector selector = new SimpleSelector(subject, prefLabel, (RDFNode) null);
@@ -144,6 +124,13 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return list;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * scolomfr3.web.tests.model.vocabulary.Vocabulary#getTreeForUri(java.lang.
+	 * String, boolean)
+	 */
 	@Override
 	public Tree<Pair<String, String>> getTreeForUri(String uri, boolean useMember) {
 		Resource resource = getModel().getResource(uri);
@@ -199,36 +186,37 @@ public class SkosVocabulary extends AbstractVocabulary {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * getRevertedNarrowerRelations()
+	 */
 	@Override
 	public List<Pair<String, String>> getRevertedNarrowerRelations() {
-		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
-		Property narrower = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "narrower");
-		Selector broaderSelector = new SimpleSelector(null, broader, (RDFNode) null);
-		List<Pair<String, String>> revertedRelations = new ArrayList<>();
-		StmtIterator stmts = getModel().listStatements(broaderSelector);
-		while (stmts.hasNext()) {
-			Statement statement = (Statement) stmts.next();
-			Selector narrowerSelector = new SimpleSelector((Resource) statement.getObject(), narrower,
-					statement.getSubject());
-			StmtIterator stmts2 = getModel().listStatements(narrowerSelector);
-			if (stmts2.hasNext()) {
-				revertedRelations.add(new ImmutablePair<String, String>(
-						prefLabelWithUri((Resource) statement.getObject()), prefLabelWithUri(statement.getSubject())));
-			}
-		}
-		return revertedRelations;
+		return getRevertedRelations("narrower", "broader");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * getRevertedBroaderRelations()
+	 */
 	@Override
 	public List<Pair<String, String>> getRevertedBroaderRelations() {
-		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
-		Property narrower = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "narrower");
-		Selector narrowerSelector = new SimpleSelector(null, narrower, (RDFNode) null);
+		return getRevertedRelations("broader", "narrower");
+	}
+
+	private List<Pair<String, String>> getRevertedRelations(String predicateName, String reverseName) {
+		Property predicate = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", predicateName);
+		Property reverse = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", reverseName);
+		Selector reverseSelector = new SimpleSelector(null, reverse, (RDFNode) null);
 		List<Pair<String, String>> revertedRelations = new ArrayList<>();
-		StmtIterator stmts = getModel().listStatements(narrowerSelector);
+		StmtIterator stmts = getModel().listStatements(reverseSelector);
 		while (stmts.hasNext()) {
 			Statement statement = (Statement) stmts.next();
-			Selector broaderSelector = new SimpleSelector((Resource) statement.getObject(), broader,
+			Selector broaderSelector = new SimpleSelector((Resource) statement.getObject(), predicate,
 					statement.getSubject());
 			StmtIterator stmts2 = getModel().listStatements(broaderSelector);
 			if (stmts2.hasNext()) {
@@ -243,6 +231,12 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return getPrefLabelForResource(resource) + "§" + resource.getURI();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * getMissingNarrowerRelations()
+	 */
 	@Override
 	public List<Pair<String, String>> getMissingNarrowerRelations() {
 		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
@@ -263,6 +257,12 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return missingRelations;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * getMissingBroaderRelations()
+	 */
 	@Override
 	public List<Pair<String, String>> getMissingBroaderRelations() {
 		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
@@ -283,6 +283,13 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return missingRelations;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * scolomfr3.web.tests.model.vocabulary.Vocabulary#getLabelsForStringPattern
+	 * (java.lang.String)
+	 */
 	@Override
 	public Map<String, String> getLabelsForStringPattern(String pattern) {
 		pattern = pattern.replace('(', '.').replace(')', '.');
@@ -305,6 +312,13 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return map;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * scolomfr3.web.tests.model.vocabulary.Vocabulary#getInformationForUri(java
+	 * .lang.String)
+	 */
 	@Override
 	public Map<String, String> getInformationForUri(String uri) {
 		Map<String, String> list = new TreeMap<>();

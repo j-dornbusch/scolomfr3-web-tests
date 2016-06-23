@@ -50,7 +50,7 @@
 						<ul>
 		<c:forEach items="${revertedNarrower}" var="reverted">
 		<li><span class="glyphicon glyphicon-check" aria-hidden="true"></span> ${reverted.getLeft().substring(0 , reverted.getLeft().indexOf("§"))} <span
-									class="glyphicon glyphicon-chevron-right" aria-hidden="true"> ${reverted.getRight().substring(0 , reverted.getRight().indexOf("§"))} </li>
+									class="glyphicon glyphicon-chevron-right" aria-hidden="true"> ${reverted.getRight().substring(0 , reverted.getRight().indexOf("§"))}</span> </li>
 		</c:forEach>
 		</ul>
 					</div>
@@ -59,7 +59,7 @@
 		
 		<c:forEach items="${revertedBroader}" var="reverted">
 		<li><span class="glyphicon glyphicon-check" aria-hidden="true"></span> ${reverted.getLeft().substring(0 , reverted.getLeft().indexOf("§"))} <span
-									class="glyphicon glyphicon-chevron-left" aria-hidden="true"> ${reverted.getRight().substring(0 , reverted.getRight().indexOf("§"))} </li>
+									class="glyphicon glyphicon-chevron-left" aria-hidden="true"> ${reverted.getRight().substring(0 , reverted.getRight().indexOf("§"))} </span></li>
 		</c:forEach>
 		</ul>
 					</div>
