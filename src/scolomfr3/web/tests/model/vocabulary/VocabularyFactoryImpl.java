@@ -34,6 +34,14 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 			vocabulary = new SkosVocabulary();
 			inputFileName = "/scolomfr-v-3/scolomfr.skos";
 			break;
+		case SCOLOMFR3_V14_SKOS:
+			vocabulary = new SkosVocabulary();
+			inputFileName = "/scolomfr-v-3/scolomfr_v14.skos";
+			break;
+		case SCOLOMFR3_V15_SKOS:
+			vocabulary = new SkosVocabulary();
+			inputFileName = "/scolomfr-v-3/scolomfr_v15.skos";
+			break;
 		}
 		InputStream in = resourcesLoader.loadResource(inputFileName);
 		model.read(in, null);

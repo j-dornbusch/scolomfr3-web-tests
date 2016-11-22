@@ -14,7 +14,7 @@ public class HierarchicalGraphController {
 	private Vocabulary skosVocabulary;
 
 	@RequestMapping("/graphs")
-	public ModelAndView completeSkosParsing() {
+	public ModelAndView graphAnalysis() {
 
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-graphs");
 		modelAndView.addObject("revertedNarrower", skosVocabulary.getRevertedNarrowerRelations());

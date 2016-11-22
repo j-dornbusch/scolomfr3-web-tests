@@ -1,5 +1,6 @@
 $(document).ready(
 		function() {
+			$('html').addClass($.fn.details.support ? 'details' : 'no-details');
 			$('ul.vocab-tree').treed();
 			$("form select#root-uri-selector").change(function(e) {
 				$("ul.vocab-tree").replaceWith($("#preloader").show());
@@ -62,4 +63,5 @@ $(document).ready(
 				height : 40
 			}).change(updatelabelSearchField);
 			updatelabelSearchField();
+			$('details').details();
 		});

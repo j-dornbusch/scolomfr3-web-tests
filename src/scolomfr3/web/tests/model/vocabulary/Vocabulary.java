@@ -79,4 +79,27 @@ public interface Vocabulary {
 	 * @return une map predicat -> prefLabel
 	 */
 	Map<String, String> getInformationForUri(String uri);
+
+	/**
+	 * 
+	 * @return une map uri du parent -> liste des preflabels problématiques
+	 */
+	Map<String, List<String>> getInconsistentCase();
+
+	/**
+	 * 
+	 * @return le nombre de listes en minuscules
+	 */
+	int getNbListUppercase();
+
+	/**
+	 * 
+	 * @return le nombre de listes en majuscules ou indeterminées
+	 */
+	int getNbListLowercase();
+
+	Map<String, List<String>> getDubiousLangStrings();
+
+	Map<String, List<String>> getMissingPrefLabels();
+
 }

@@ -8,7 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.query.Query;
@@ -26,12 +29,57 @@ import org.apache.jena.rdf.model.Selector;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.iterator.ExtendedIterator;
+
+import com.atlascopco.hunspell.Hunspell;
 
 import scolomfr3.web.tests.model.utils.Tree;
 import scolomfr3.web.tests.model.utils.Tree.Node;
 import scolomfr3.web.tests.model.vocabulary.AbstractVocabulary;
 
 public class SkosVocabulary extends AbstractVocabulary {
+
+	private List<String> nomsPropres = new ArrayList<String>() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		{
+			add("Celtes");
+			add("Clovis");
+			add("Rome");
+			add("État");
+			add("Napoléon");
+			add("Guyane");
+			add("Flandres");
+			add("Éduthèque");
+			add("François");
+			add("Françaises");
+			add("Homo");
+			add("Louis");
+			add("henri");
+			add("Byzance");
+			add("amaya");
+			add("windows");
+			add("netscape");
+			add("opera");
+			add("mozilla");
+			add("safari");
+			add("google");
+			add("microsoft");
+			add("ms-windows");
+			add("linux");
+			add("android");
+			add("blackberry");
+			add("ios");
+			add("mac");
+			add("symbian");
+			add("Chrome");
+		}
+	};
+	private int nbListUppercase;
+	private int nbListLowercase;
 
 	/*
 	 * (non-Javadoc)
@@ -343,10 +391,10 @@ public class SkosVocabulary extends AbstractVocabulary {
 		while (stmts.hasNext()) {
 			Statement statement = (Statement) stmts.next();
 			String value = "";
-			if (statement.getObject().isLiteral()) {
-				value = ((Literal) statement.getObject()).getString();
+			if (statement.getSubject().isLiteral()) {
+				value = ((Literal) statement.getSubject()).getString();
 			} else {
-				value = statement.getObject().toString();
+				value = statement.getSubject().toString();
 			}
 			String predicateName = '|' + statement.getPredicate().getLocalName();
 			if (list.containsKey(predicateName)) {
@@ -356,4 +404,201 @@ public class SkosVocabulary extends AbstractVocabulary {
 		}
 		return list;
 	}
+
+	@Override
+	public Map<String, List<String>> getInconsistentCase() {
+		Map<String, String> vocabRoots = getVocabRoots();
+		Iterator<String> it = vocabRoots.keySet().iterator();
+		Map<String, List<String>> results = new HashMap<>();
+		nbListUppercase = 0;
+		nbListLowercase = 0;
+		while (it.hasNext()) {
+			String uri = it.next();
+			Tree<Pair<String, String>> tree = getTreeForUri(uri, true);
+			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), results);
+		}
+		return results;
+	}
+
+	private void detectCaseConcernsRecursively(Pair<String, String> rootData, List<Node<Pair<String, String>>> children,
+			Map<String, List<String>> results) {
+		Boolean caseConcern = false;
+
+		Iterator<Node<Pair<String, String>>> it = children.iterator();
+		List<String> labels = new ArrayList<>();
+		while (it.hasNext()) {
+			Tree.Node<Pair<String, String>> node = it.next();
+			String label = node.getData().getRight();
+			labels.add(label);
+			Character firstLetter = label.charAt(0);
+			if (!Character.isLetter(firstLetter)) {
+				continue;
+			}
+			boolean firstLetterIsLower = Character.isLowerCase(firstLetter);
+			Boolean isSigle = isSigle(label);
+			boolean isNompropre = isNomPropre(label);
+
+			if (!firstLetterIsLower && !isNompropre && !isSigle) {
+				caseConcern = true;
+			}
+
+			Tree<Pair<String, String>> tree = getTreeForUri(node.getData().getLeft(), false);
+			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), results);
+		}
+		if (caseConcern) {
+			List<String> labelsWithFlags = new ArrayList<>();
+			Iterator<String> it2 = labels.iterator();
+			while (it2.hasNext()) {
+				String label = (String) it2.next();
+				if (!Character.isLowerCase(label.charAt(0)) && !isNomPropre(label) && !isSigle(label)) {
+					label = "-" + label;
+				} else {
+					label = "+" + label;
+				}
+				labelsWithFlags.add(label);
+			}
+
+			results.put(rootData.getLeft(), labelsWithFlags);
+		}
+	}
+
+	private Boolean isSigle(String label) {
+		Character firstLetter = label.charAt(0);
+		boolean firstLetterIsLower = Character.isLowerCase(firstLetter);
+		Character secondLetter = label.length() > 1 ? label.charAt(1) : 'X';
+		boolean secondLetterIsLower = label.length() > 1 && Character.isLowerCase(secondLetter);
+		return !firstLetterIsLower && !secondLetterIsLower;
+	}
+
+	private boolean isNomPropre(String label) {
+		for (String nomPropre : nomsPropres) {
+			if (label.toLowerCase().startsWith(nomPropre.toLowerCase())) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	@Override
+	public int getNbListUppercase() {
+		return nbListUppercase;
+	}
+
+	@Override
+	public int getNbListLowercase() {
+		return nbListLowercase;
+	}
+
+	@Override
+	public Map<String, List<String>> getDubiousLangStrings() {
+		Pattern abbreviationsPattern = Pattern.compile("^([A-Za-zàèéêîôûù]+\\.\\s*)+([A-Za-zàèéêîôûù]+\\.*\\s*)$");
+
+		Map<String, List<String>> dubious = new HashMap<>();
+		Hunspell speller = new Hunspell("/usr/share/hunspell/fr_FR.dic", "/usr/share/hunspell/fr_FR.aff");
+		Property prefLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
+		Property altLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "altLabel");
+		Property scopeNote = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "scopeNote");
+		Selector prefLabelSelector = new SimpleSelector(null, prefLabel, (RDFNode) null);
+		Selector altLabelSelector = new SimpleSelector(null, altLabel, (RDFNode) null);
+		Selector scopeNoteSelector = new SimpleSelector(null, scopeNote, (RDFNode) null);
+		StmtIterator stmts1 = getModel().listStatements(prefLabelSelector);
+		StmtIterator stmts2 = getModel().listStatements(altLabelSelector);
+		StmtIterator stmts3 = getModel().listStatements(scopeNoteSelector);
+		ExtendedIterator<Statement> stmts = stmts1.andThen(stmts2).andThen(stmts3);
+		Resource vocab001 = getModel().getResource("http://data.education.fr/voc/scolomfr/scolomfr-voc-001");
+		Resource vocab006 = getModel().getResource("http://data.education.fr/voc/scolomfr/scolomfr-voc-006");
+		Resource vocab024 = getModel().getResource("http://data.education.fr/voc/scolomfr/scolomfr-voc-024");
+
+		while (stmts.hasNext()) {
+			Statement statement = (Statement) stmts.next();
+
+			if (memberOfVocab(vocab001, statement.getSubject()) || memberOfVocab(vocab024, statement.getSubject())
+					|| memberOfVocab(vocab006, statement.getSubject())) {
+				continue;
+			}
+			Literal labelLit = (Literal) statement.getObject();
+
+			if (!StringUtils.equals("fr", labelLit.getLanguage())) {
+				continue;
+			}
+			String label = labelLit.getString();
+			Matcher matcher = abbreviationsPattern.matcher(label);
+			if (matcher.find()) {
+				System.out.println(label + " est une abbréviation");
+				continue;
+			}
+			label = StringUtils.replace(label, "(", " ");
+			label = StringUtils.replace(label, ")", " ");
+			label = StringUtils.replace(label, ",", " ");
+
+			label = StringUtils.replace(label, "'", " ");
+			label = StringUtils.replace(label, "–", " ");
+			label = StringUtils.replace(label, ":", " ");
+			label = StringUtils.replace(label, ";", " ");
+			label = StringUtils.replace(label, "\"", " ");
+
+			label = StringUtils.replace(label, ".", " ");
+			label = StringUtils.replace(label, "…", " ");
+			String[] labelFragments = label.split("\\s+");
+			for (int i = 0; i < labelFragments.length; i++) {
+
+				label = labelFragments[i];
+				if (StringUtils.equals("ScoLomFr", label) || StringUtils.isAllUpperCase(label)
+						|| StringUtils.isNumeric(label) || StringUtils.containsAny(label, "1234567890/")
+						|| label.length() < 3 || Character.isUpperCase(label.charAt(1))) {
+					continue;
+				}
+				if (!speller.spell(label)) {
+					if (!dubious.containsKey(statement.getSubject().getURI())) {
+						dubious.put(statement.getSubject().getURI(), new ArrayList<>());
+					}
+					if (!dubious.get(statement.getSubject().getURI()).contains(label)) {
+						dubious.get(statement.getSubject().getURI()).add(label);
+					}
+				}
+			}
+
+		}
+		speller.close();
+
+		return dubious;
+	}
+
+	private boolean memberOfVocab(Resource vocab, Resource subject) {
+		Property member = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "member");
+		Selector memberSelector = new SimpleSelector(vocab, member, subject);
+		StmtIterator stmtIterator = getModel().listStatements(memberSelector);
+		return stmtIterator.hasNext();
+	}
+
+	@Override
+	public Map<String, List<String>> getMissingPrefLabels() {
+		Map<String, List<String>> missingPrefLabels = new HashMap<>();
+		Property prefLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
+		Property altLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "altLabel");
+		Selector globalSelector = new SimpleSelector(null, null, (RDFNode) null);
+
+		StmtIterator stmts1 = getModel().listStatements(globalSelector);
+
+		while (stmts1.hasNext()) {
+
+			Statement statement = (Statement) stmts1.next();
+			Selector prefLabelSelector = new SimpleSelector(statement.getSubject(), prefLabel, (RDFNode) null);
+			StmtIterator stmts2 = getModel().listStatements(prefLabelSelector);
+			if (!stmts2.hasNext()) {
+				missingPrefLabels.put(statement.getSubject().getURI(), new ArrayList<>());
+				Selector altLabelSelector = new SimpleSelector(statement.getSubject(), altLabel, (RDFNode) null);
+				StmtIterator stmts3 = getModel().listStatements(altLabelSelector);
+				while (stmts3.hasNext()) {
+					Statement altLabelStatement = (Statement) stmts3.next();
+					missingPrefLabels.get(statement.getSubject().getURI())
+							.add(((Literal) altLabelStatement.getObject()).getString());
+
+				}
+			}
+		}
+		return missingPrefLabels;
+	}
+
 }

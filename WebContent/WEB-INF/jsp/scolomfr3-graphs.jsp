@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <spring:url value="/scolomfr3/trees" var="trees"></spring:url>
 <t:layout>
 	<jsp:body>
@@ -63,6 +64,7 @@
 		</c:forEach>
 		</ul>
 					</div>
+					
   </div>
 			</div>
 		

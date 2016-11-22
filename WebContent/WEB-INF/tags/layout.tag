@@ -4,6 +4,7 @@
 <spring:url value="/scolomfr3/trees" var="trees"></spring:url>
 <spring:url value="/scolomfr3/graphs" var="graphs"></spring:url>
 <spring:url value="/scolomfr3/search" var="search"></spring:url>
+<spring:url value="/scolomfr3/labels" var="labels"></spring:url>
 <spring:url value="/resources" var="baseResourcesPath" />
 <spring:url value="/scolomfr3/index" var="index"></spring:url>
 <spring:url
@@ -63,12 +64,14 @@ body {
 					<a class="navbar-brand" href="${index}">Recette ScoLomfr3 -
 						plateforme de test</a>
 					<ul class="nav navbar-nav">
-						<li
-							<c:if test="${page=='trees'}">class="active"</c:if>><a href="${trees}">Affichage</a></li>
-						<li
-							<c:if test="${page=='search'}">class="active"</c:if>><a href="${search}">Recherche</a></li>
-						<li
-							<c:if test="${page=='graphs'}">class="active"</c:if>><a href="${graphs}">Graphes</a></li>
+						<li <c:if test="${page=='trees'}">class="active"</c:if>><a
+							href="${trees}">Affichage</a></li>
+						<li <c:if test="${page=='search'}">class="active"</c:if>><a
+							href="${search}">Recherche</a></li>
+						<li <c:if test="${page=='graphs'}">class="active"</c:if>><a
+							href="${graphs}">Graphes</a></li>
+						<li <c:if test="${page=='labels'}">class="active"</c:if>><a
+							href="${labels}">Labels</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
