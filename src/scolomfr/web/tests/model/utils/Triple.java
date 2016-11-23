@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.utils;
+package scolomfr.web.tests.model.utils;
 
 /**
  * Classe utilitaire, fournit une structure de triplet indépendante de toute

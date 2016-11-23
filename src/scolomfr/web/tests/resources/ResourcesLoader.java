@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.resources;
+package scolomfr.web.tests.resources;
 
 import java.io.InputStream;
 

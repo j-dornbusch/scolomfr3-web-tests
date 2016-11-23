@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.controller.response;
+package scolomfr.web.tests.controller.response;
 
 import java.util.ArrayList;
 import java.util.Map;

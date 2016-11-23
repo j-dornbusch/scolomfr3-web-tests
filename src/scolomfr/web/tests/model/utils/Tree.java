@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.utils;
+package scolomfr.web.tests.model.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;

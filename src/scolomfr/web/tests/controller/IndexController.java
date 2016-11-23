@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.controller;
+package scolomfr.web.tests.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

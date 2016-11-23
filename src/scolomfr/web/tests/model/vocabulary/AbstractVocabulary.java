@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.vocabulary;
+package scolomfr.web.tests.model.vocabulary;
 
 import org.apache.jena.rdf.model.Model;
 

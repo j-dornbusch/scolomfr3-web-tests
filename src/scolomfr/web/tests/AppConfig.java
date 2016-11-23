@@ -1,13 +1,13 @@
-package scolomfr3.web.tests;
+package scolomfr.web.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import scolomfr3.web.tests.model.vocabulary.Vocabularies;
-import scolomfr3.web.tests.model.vocabulary.Vocabulary;
-import scolomfr3.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.model.vocabulary.Vocabularies;
+import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
 
 @Configuration
 public class AppConfig {

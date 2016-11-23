@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.controller;
+package scolomfr.web.tests.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import scolomfr3.web.tests.controller.response.Result;
-import scolomfr3.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.controller.response.Result;
+import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
 @Controller
 public class LabelsController {

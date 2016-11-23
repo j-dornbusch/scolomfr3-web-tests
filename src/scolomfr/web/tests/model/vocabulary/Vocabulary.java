@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.vocabulary;
+package scolomfr.web.tests.model.vocabulary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
 
-import scolomfr3.web.tests.model.utils.Tree;
+import scolomfr.web.tests.model.utils.Tree;
 
 public interface Vocabulary {
 

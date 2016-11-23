@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.vocabulary.rdf;
+package scolomfr.web.tests.model.vocabulary.rdf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import scolomfr3.web.tests.model.utils.Tree;
-import scolomfr3.web.tests.model.vocabulary.AbstractVocabulary;
+import scolomfr.web.tests.model.utils.Tree;
+import scolomfr.web.tests.model.vocabulary.AbstractVocabulary;
 
 public class RdfVocabulary extends AbstractVocabulary {
 

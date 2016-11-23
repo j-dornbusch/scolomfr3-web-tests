@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.vocabulary.skos;
+package scolomfr.web.tests.model.vocabulary.skos;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,9 +33,9 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
 import com.atlascopco.hunspell.Hunspell;
 
-import scolomfr3.web.tests.model.utils.Tree;
-import scolomfr3.web.tests.model.utils.Tree.Node;
-import scolomfr3.web.tests.model.vocabulary.AbstractVocabulary;
+import scolomfr.web.tests.model.utils.Tree;
+import scolomfr.web.tests.model.utils.Tree.Node;
+import scolomfr.web.tests.model.vocabulary.AbstractVocabulary;
 
 public class SkosVocabulary extends AbstractVocabulary {
 
@@ -84,7 +84,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#getVocabRoots()
+	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#getVocabRoots()
 	 */
 	public Map<String, String> getVocabRoots() {
 		Model model = this.getModel();
@@ -106,7 +106,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#getTreeRoots()
+	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#getTreeRoots()
 	 */
 	public Map<String, String> getTreeRoots() {
 		Model model = this.getModel();
@@ -176,7 +176,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * scolomfr3.web.tests.model.vocabulary.Vocabulary#getTreeForUri(java.lang.
+	 * scolomfr.web.tests.model.vocabulary.Vocabulary#getTreeForUri(java.lang.
 	 * String, boolean)
 	 */
 	@Override
@@ -237,7 +237,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#
 	 * getRevertedNarrowerRelations()
 	 */
 	@Override
@@ -248,7 +248,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#
 	 * getRevertedBroaderRelations()
 	 */
 	@Override
@@ -282,7 +282,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#
 	 * getMissingNarrowerRelations()
 	 */
 	@Override
@@ -308,7 +308,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see scolomfr3.web.tests.model.vocabulary.Vocabulary#
+	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#
 	 * getMissingBroaderRelations()
 	 */
 	@Override
@@ -335,7 +335,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * scolomfr3.web.tests.model.vocabulary.Vocabulary#getLabelsForStringPattern
+	 * scolomfr.web.tests.model.vocabulary.Vocabulary#getLabelsForStringPattern
 	 * (java.lang.String)
 	 */
 	@Override
@@ -364,7 +364,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * scolomfr3.web.tests.model.vocabulary.Vocabulary#getInformationForUri(java
+	 * scolomfr.web.tests.model.vocabulary.Vocabulary#getInformationForUri(java
 	 * .lang.String)
 	 */
 	@Override

@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.controller;
+package scolomfr.web.tests.controller;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import scolomfr3.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
 @Controller
 public class SearchControler {

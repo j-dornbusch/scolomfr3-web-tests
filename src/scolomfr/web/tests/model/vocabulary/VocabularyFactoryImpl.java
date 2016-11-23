@@ -1,4 +1,4 @@
-package scolomfr3.web.tests.model.vocabulary;
+package scolomfr.web.tests.model.vocabulary;
 
 import java.io.InputStream;
 
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import scolomfr3.web.tests.model.vocabulary.rdf.RdfVocabulary;
-import scolomfr3.web.tests.model.vocabulary.skos.SkosVocabulary;
-import scolomfr3.web.tests.resources.ResourcesLoader;
+import scolomfr.web.tests.model.vocabulary.rdf.RdfVocabulary;
+import scolomfr.web.tests.model.vocabulary.skos.SkosVocabulary;
+import scolomfr.web.tests.resources.ResourcesLoader;
 
 @Component
 @Scope("application")

@@ -1,11 +1,11 @@
-package scolomfr3.web.tests.controller;
+package scolomfr.web.tests.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import scolomfr3.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
 @Controller
 public class HierarchicalGraphController {
