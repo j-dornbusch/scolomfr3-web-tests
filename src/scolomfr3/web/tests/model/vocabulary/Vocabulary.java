@@ -1,7 +1,9 @@
 package scolomfr3.web.tests.model.vocabulary;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
@@ -100,6 +102,6 @@ public interface Vocabulary {
 
 	Map<String, List<String>> getDubiousLangStrings();
 
-	Map<String, List<String>> getMissingPrefLabels();
+	TreeMap<String, ArrayList<String>> getMissingPrefLabels();
 
 }

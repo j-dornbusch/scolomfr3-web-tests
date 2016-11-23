@@ -573,8 +573,8 @@ public class SkosVocabulary extends AbstractVocabulary {
 	}
 
 	@Override
-	public Map<String, List<String>> getMissingPrefLabels() {
-		Map<String, List<String>> missingPrefLabels = new HashMap<>();
+	public TreeMap<String, ArrayList<String>> getMissingPrefLabels() {
+		TreeMap<String, ArrayList<String>> missingPrefLabels = new TreeMap<>();
 		Property prefLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
 		Property altLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "altLabel");
 		Selector globalSelector = new SimpleSelector(null, null, (RDFNode) null);
