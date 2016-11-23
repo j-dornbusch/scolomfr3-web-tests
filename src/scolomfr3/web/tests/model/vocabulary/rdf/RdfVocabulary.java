@@ -1,7 +1,9 @@
 package scolomfr3.web.tests.model.vocabulary.rdf;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -89,7 +91,7 @@ public class RdfVocabulary extends AbstractVocabulary {
 	}
 
 	@Override
-	public Map<String, List<String>> getMissingPrefLabels() {
+	public TreeMap<String, ArrayList<String>> getMissingPrefLabels() {
 		// TODO Auto-generated method stub
 		return null;
 	}
