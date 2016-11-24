@@ -82,26 +82,10 @@ public interface Vocabulary {
 	 */
 	Map<String, String> getInformationForUri(String uri);
 
-	/**
-	 * 
-	 * @return une map uri du parent -> liste des preflabels problématiques
-	 */
-	Map<String, List<String>> getInconsistentCase();
-
-	/**
-	 * 
-	 * @return le nombre de listes en minuscules
-	 */
-	int getNbListUppercase();
-
-	/**
-	 * 
-	 * @return le nombre de listes en majuscules ou indeterminées
-	 */
-	int getNbListLowercase();
-
 	Map<String, List<String>> getDubiousLangStrings();
 
 	TreeMap<String, ArrayList<String>> getMissingPrefLabels();
+
+	<T> T apply(AbstractAlgorithm<T> algorithm);
 
 }

@@ -16,4 +16,9 @@ public abstract class AbstractVocabulary implements Vocabulary {
 
 	}
 
+	@Override
+	public <T> T apply(AbstractAlgorithm<T> algorithm) {
+		return algorithm.analyse(this);
+	}
+
 }

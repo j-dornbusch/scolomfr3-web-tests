@@ -67,24 +67,6 @@ public class RdfVocabulary extends AbstractVocabulary {
 	}
 
 	@Override
-	public Map<String, List<String>> getInconsistentCase() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getNbListUppercase() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getNbListLowercase() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public Map<String, List<String>> getDubiousLangStrings() {
 		// TODO Auto-generated method stub
 		return null;

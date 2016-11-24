@@ -2,6 +2,7 @@ package scolomfr.web.tests.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import scolomfr.web.tests.controller.response.Result;
+import scolomfr.web.tests.model.vocabulary.InconsistentCaseDetector;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
 @Controller
@@ -25,9 +27,11 @@ public class LabelsController {
 	public ModelAndView labelConcerns() {
 
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-labels");
-		modelAndView.addObject("caseConcerns", skosVocabulary.getInconsistentCase());
-		modelAndView.addObject("nbListsLowercase", skosVocabulary.getNbListLowercase());
-		modelAndView.addObject("nbListsUppercase", skosVocabulary.getNbListUppercase());
+		InconsistentCaseDetector inconsistentCaseDetector = new InconsistentCaseDetector();
+		Map<String, List<String>> caseConcerns = skosVocabulary.apply(inconsistentCaseDetector);
+		modelAndView.addObject("caseConcerns", caseConcerns);
+		modelAndView.addObject("nbListsLowercase", inconsistentCaseDetector.getNbListLowercase());
+		modelAndView.addObject("nbListsUppercase", inconsistentCaseDetector.getNbListUppercase());
 		TreeMap<String, List<String>> sortedLanguageConcernsMap = new TreeMap<String, List<String>>(
 				skosVocabulary.getDubiousLangStrings());
 		modelAndView.addObject("languageConcerns", sortedLanguageConcernsMap);
