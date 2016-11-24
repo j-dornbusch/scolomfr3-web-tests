@@ -1,4 +1,4 @@
-package scolomfr.web.tests.model.vocabulary;
+package scolomfr.web.tests.model.vocabulary.skos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,11 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.utils.Tree.Node;
+import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 
-public class InconsistentCaseDetector extends AbstractAlgorithm<Map<String, List<String>>> {
+@Component
+public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>> implements InconsistentCaseDetector {
 
 	private int nbListUppercase;
 	private int nbListLowercase;
@@ -137,18 +141,18 @@ public class InconsistentCaseDetector extends AbstractAlgorithm<Map<String, List
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return le nombre de listes en minuscules
+	/* (non-Javadoc)
+	 * @see scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector#getNbListUppercase()
 	 */
+	@Override
 	public int getNbListUppercase() {
 		return nbListUppercase;
 	}
 
-	/**
-	 * 
-	 * @return le nombre de listes en majuscules ou indeterminées
+	/* (non-Javadoc)
+	 * @see scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector#getNbListLowercase()
 	 */
+	@Override
 	public int getNbListLowercase() {
 		return nbListLowercase;
 	}

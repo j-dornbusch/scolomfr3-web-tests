@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import scolomfr.web.tests.controller.response.Result;
-import scolomfr.web.tests.model.vocabulary.InconsistentCaseDetector;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector;
 
 @Controller
 public class LabelsController {
@@ -23,11 +23,13 @@ public class LabelsController {
 	@Autowired
 	private Vocabulary skosVocabulary;
 
+	@Autowired
+	private InconsistentCaseDetector inconsistentCaseDetector;
+
 	@RequestMapping("/labels")
 	public ModelAndView labelConcerns() {
 
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-labels");
-		InconsistentCaseDetector inconsistentCaseDetector = new InconsistentCaseDetector();
 		Map<String, List<String>> caseConcerns = skosVocabulary.apply(inconsistentCaseDetector);
 		modelAndView.addObject("caseConcerns", caseConcerns);
 		modelAndView.addObject("nbListsLowercase", inconsistentCaseDetector.getNbListLowercase());

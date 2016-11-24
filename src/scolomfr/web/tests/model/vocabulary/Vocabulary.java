@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
 
 import scolomfr.web.tests.model.utils.Tree;
+import scolomfr.web.tests.model.vocabulary.algorithm.Algorithm;
 
 public interface Vocabulary {
 
@@ -86,6 +87,6 @@ public interface Vocabulary {
 
 	TreeMap<String, ArrayList<String>> getMissingPrefLabels();
 
-	<T> T apply(AbstractAlgorithm<T> algorithm);
+	<T> T apply(Algorithm<T> algorithm);
 
 }
