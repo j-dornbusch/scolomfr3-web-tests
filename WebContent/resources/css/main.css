@@ -13,6 +13,11 @@ body div.container div.row div.tab-content div.tab-pane.active {
 	margin-top: 1em;
 }
 
+nav.navbar.navbar-inverse.navbar-fixed-top div.container div.navbar-header div#navbar.collapse.navbar-collapse div.navbar-nav.navbar-right form div.dropdown.pull-right
+	{
+	padding: 10px;
+}
+
 span.glyphicon.glyphicon-link {
 	cursor: pointer;
 }

@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import scolomfr.web.tests.model.vocabulary.SchemaVersion;
-import scolomfr.web.tests.model.vocabulary.Vocabularies;
+import scolomfr.web.tests.model.vocabulary.Formats;
+import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
 import scolomfr.web.tests.resources.MissingRessourceException;
@@ -18,13 +18,13 @@ public class AppConfig {
 	@Scope("application")
 	@Autowired
 	public Vocabulary skosVocabulary(VocabularyFactory vocabularyFactory) throws MissingRessourceException {
-		return vocabularyFactory.get(Vocabularies.SCOLOMFR3_SKOS, new SchemaVersion(3, 0));
+		return vocabularyFactory.get(Formats.SKOS, Versions.getCurrentVersion());
 	}
 
 	@Bean
 	@Scope("application")
 	@Autowired
 	public Vocabulary rdfVocabulary(VocabularyFactory vocabularyFactory) throws MissingRessourceException {
-		return vocabularyFactory.get(Vocabularies.SCOLOMFR3_RDF, new SchemaVersion(3, 0));
+		return vocabularyFactory.get(Formats.RDF, Versions.getCurrentVersion());
 	}
 }

@@ -8,6 +8,7 @@ public abstract class AbstractVocabulary implements Vocabulary {
 
 	private Model model;
 
+	@Override
 	public Model getModel() {
 		return model;
 	}

@@ -5,6 +5,6 @@ import scolomfr.web.tests.resources.MissingRessourceException;
 @FunctionalInterface
 public interface VocabularyFactory {
 
-	Vocabulary get(Vocabularies vocabularyIdentifier, SchemaVersion version) throws MissingRessourceException;
+	Vocabulary get(Formats vocabularyIdentifier, Versions version) throws MissingRessourceException;
 
 }

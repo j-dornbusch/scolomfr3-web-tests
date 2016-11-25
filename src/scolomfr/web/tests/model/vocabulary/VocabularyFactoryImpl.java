@@ -21,17 +21,17 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 	ResourcesLoader resourcesLoader;
 
 	@Override
-	public Vocabulary get(Vocabularies vocabularyIdentifier, SchemaVersion version) throws MissingRessourceException {
+	public Vocabulary get(Formats vocabularyIdentifier, Versions version) throws MissingRessourceException {
 		Vocabulary vocabulary;
 		Model model = ModelFactory.createDefaultModel();
 		String inputFileName;
 
 		switch (vocabularyIdentifier) {
-		case SCOLOMFR3_RDF:
+		case RDF:
 			vocabulary = new RdfVocabulary();
 			inputFileName = "/scolomfr-v-3.0/scolomfr.rdf";
 			break;
-		case SCOLOMFR3_SKOS:
+		case SKOS:
 			vocabulary = new SkosVocabulary();
 			inputFileName = "/scolomfr-v-3.0/scolomfr.skos";
 			break;

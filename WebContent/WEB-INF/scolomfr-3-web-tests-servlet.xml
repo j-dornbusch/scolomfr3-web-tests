@@ -18,6 +18,11 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<mvc:resources mapping="/scolomfr3/resources/**" location="/resources/" />
+	<mvc:interceptors>
+      <bean class="scolomfr.web.tests.controller.TargetInterceptor" />
+	</mvc:interceptors> 
+	
+	<mvc:resources mapping="/scolomfr3/resources/**"
+		location="/resources/" />
 	<mvc:annotation-driven />
 </beans>

@@ -20,6 +20,8 @@ public interface Vocabulary {
 	 */
 	void setModel(Model model);
 
+	Model getModel();
+
 	/**
 	 * Détection des racines de l'arbre des relations narrower/broader
 	 * 
@@ -82,8 +84,6 @@ public interface Vocabulary {
 	 * @return une map predicat -> prefLabel
 	 */
 	Map<String, String> getInformationForUri(String uri);
-
-	Map<String, List<String>> getDubiousLangStrings();
 
 	TreeMap<String, ArrayList<String>> getMissingPrefLabels();
 

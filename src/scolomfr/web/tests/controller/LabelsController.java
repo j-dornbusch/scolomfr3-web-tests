@@ -1,6 +1,7 @@
 package scolomfr.web.tests.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import scolomfr.web.tests.controller.response.Result;
+import scolomfr.web.tests.model.vocabulary.Formats;
+import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.skos.DubiousLangStringDetector;
 import scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector;
 
 @Controller
@@ -26,6 +30,9 @@ public class LabelsController {
 	@Autowired
 	private InconsistentCaseDetector inconsistentCaseDetector;
 
+	@Autowired
+	private DubiousLangStringDetector dubiousLangStringDetector;
+
 	@RequestMapping("/labels")
 	public ModelAndView labelConcerns() {
 
@@ -35,7 +42,7 @@ public class LabelsController {
 		modelAndView.addObject("nbListsLowercase", inconsistentCaseDetector.getNbListLowercase());
 		modelAndView.addObject("nbListsUppercase", inconsistentCaseDetector.getNbListUppercase());
 		TreeMap<String, List<String>> sortedLanguageConcernsMap = new TreeMap<String, List<String>>(
-				skosVocabulary.getDubiousLangStrings());
+				skosVocabulary.apply(dubiousLangStringDetector));
 		modelAndView.addObject("languageConcerns", sortedLanguageConcernsMap);
 		TreeMap<String, List<String>> sortedMissingLabelsMap = new TreeMap<String, List<String>>(
 				skosVocabulary.getMissingPrefLabels());

@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@tag description="Page layout" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <spring:url value="/scolomfr3/trees" var="trees"></spring:url>
 <spring:url value="/scolomfr3/graphs" var="graphs"></spring:url>
 <spring:url value="/scolomfr3/search" var="search"></spring:url>
@@ -22,6 +23,7 @@
 	var="bootstrapCss" />
 <spring:url value="${baseResourcesPath}/css/bootstrap-theme.min.css"
 	var="bootstrapThemeCss" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <html class="no-js" lang="">
 <head>
@@ -63,7 +65,7 @@ body {
 				<div class="collapse navbar-collapse" id="navbar">
 					<a class="navbar-brand" href="${index}">Recette ScoLomfr3 -
 						plateforme de test</a>
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav  navbar-left">
 						<li <c:if test="${page=='trees'}">class="active"</c:if>><a
 							href="${trees}">Affichage</a></li>
 						<li <c:if test="${page=='search'}">class="active"</c:if>><a
@@ -73,7 +75,9 @@ body {
 						<li <c:if test="${page=='labels'}">class="active"</c:if>><a
 							href="${labels}">Labels</a></li>
 					</ul>
+					<t:format-selector></t:format-selector>
 				</div>
+
 				<!-- /.navbar-collapse -->
 			</div>
 

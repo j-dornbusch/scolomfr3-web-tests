@@ -66,11 +66,6 @@ public class RdfVocabulary extends AbstractVocabulary {
 		return null;
 	}
 
-	@Override
-	public Map<String, List<String>> getDubiousLangStrings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public TreeMap<String, ArrayList<String>> getMissingPrefLabels() {
