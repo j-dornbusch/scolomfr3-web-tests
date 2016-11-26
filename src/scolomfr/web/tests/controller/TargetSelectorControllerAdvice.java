@@ -19,7 +19,7 @@ public class TargetSelectorControllerAdvice {
 
 	@ModelAttribute
 	public void versionAttributes(Model model) {
-		model.addAttribute("currentVersion", Versions.getCurrentVersion());
+		model.addAttribute("currentVersion", Versions.getCurrent());
 		model.addAttribute("versions", Arrays.asList(Versions.values()));
 	}
 

@@ -21,7 +21,7 @@ import scolomfr.web.tests.model.vocabulary.Vocabulary;
 public class SearchControler {
 
 	@Autowired
-	private Vocabulary skosVocabulary;
+	private Vocabulary vocabulary;
 
 	@RequestMapping("/search")
 	public String displaySearchPage(@RequestParam(name = "query", required = false, defaultValue = "") String query,
@@ -38,13 +38,13 @@ public class SearchControler {
 			uris.add(uri);
 		} else if (!StringUtils.isEmpty(query)) {
 			// Sinon, par défaut, on cherche par query
-			uris = skosVocabulary.getLabelsForStringPattern(query).keySet();
+			uris = vocabulary.getLabelsForStringPattern(query).keySet();
 			model.addAttribute("query", query);
 		}
 		Iterator<String> it = uris.iterator();
 		while (it.hasNext()) {
 			String entryUri = (String) it.next();
-			results.put(entryUri, skosVocabulary.getInformationForUri(entryUri));
+			results.put(entryUri, vocabulary.getInformationForUri(entryUri));
 		}
 		model.addAttribute("results", results);
 		model.addAttribute("page", "search");
@@ -54,6 +54,6 @@ public class SearchControler {
 	@RequestMapping(value = "/search/autocomplete", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody Map<String, String> autocompleteOnLabels(
 			@RequestParam(name = "query", required = false, defaultValue = "") String query) {
-		return skosVocabulary.getLabelsForStringPattern(query);
+		return vocabulary.getLabelsForStringPattern(query);
 	}
 }

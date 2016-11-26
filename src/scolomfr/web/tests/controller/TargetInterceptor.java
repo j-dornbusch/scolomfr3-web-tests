@@ -17,7 +17,7 @@ public class TargetInterceptor extends HandlerInterceptorAdapter {
 		String format = request.getParameter("format");
 		try {
 			if (!StringUtils.isEmpty(version)) {
-				Versions.setCurrentVersion(Versions.valueOf(version));
+				Versions.setCurrent(Versions.valueOf(version));
 			}
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());

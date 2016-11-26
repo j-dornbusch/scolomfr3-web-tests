@@ -25,7 +25,7 @@ import scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector;
 public class LabelsController {
 
 	@Autowired
-	private Vocabulary skosVocabulary;
+	private Vocabulary vocabulary;
 
 	@Autowired
 	private InconsistentCaseDetector inconsistentCaseDetector;
@@ -37,15 +37,15 @@ public class LabelsController {
 	public ModelAndView labelConcerns() {
 
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-labels");
-		Map<String, List<String>> caseConcerns = skosVocabulary.apply(inconsistentCaseDetector);
+		Map<String, List<String>> caseConcerns = vocabulary.apply(inconsistentCaseDetector);
 		modelAndView.addObject("caseConcerns", caseConcerns);
 		modelAndView.addObject("nbListsLowercase", inconsistentCaseDetector.getNbListLowercase());
 		modelAndView.addObject("nbListsUppercase", inconsistentCaseDetector.getNbListUppercase());
 		TreeMap<String, List<String>> sortedLanguageConcernsMap = new TreeMap<String, List<String>>(
-				skosVocabulary.apply(dubiousLangStringDetector));
+				vocabulary.apply(dubiousLangStringDetector));
 		modelAndView.addObject("languageConcerns", sortedLanguageConcernsMap);
 		TreeMap<String, List<String>> sortedMissingLabelsMap = new TreeMap<String, List<String>>(
-				skosVocabulary.getMissingPrefLabels());
+				vocabulary.getMissingPrefLabels());
 		modelAndView.addObject("missingLabels", sortedMissingLabelsMap);
 		modelAndView.addObject("page", "labels");
 		return modelAndView;
@@ -55,7 +55,7 @@ public class LabelsController {
 	@ResponseBody
 	public ResponseEntity<Result> missingLabels() {
 		TreeMap<String, ArrayList<String>> sortedMissingLabelsMap = new TreeMap<String, ArrayList<String>>(
-				skosVocabulary.getMissingPrefLabels());
+				vocabulary.getMissingPrefLabels());
 		Result result = new Result();
 		result.setContent(sortedMissingLabelsMap);
 		result.setErrors(sortedMissingLabelsMap.size());

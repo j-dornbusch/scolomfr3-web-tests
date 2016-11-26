@@ -10,11 +10,11 @@ public enum Versions {
 		this.value = value;
 	}
 
-	public static Versions getCurrentVersion() {
+	public static Versions getCurrent() {
 		return current;
 	}
 
-	public static void setCurrentVersion(Versions newCurrent) {
+	public static void setCurrent(Versions newCurrent) {
 		current = newCurrent;
 	}
 
