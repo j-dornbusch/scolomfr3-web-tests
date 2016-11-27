@@ -10,7 +10,7 @@ public class SkosFormatSelected implements Condition {
 
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-		System.out.println("________________test SKOS");
+		System.out.println("Is skos format selected ?");
 		return Formats.getCurrent().equals(Formats.SKOS);
 	}
 

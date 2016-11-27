@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
 import scolomfr.web.tests.model.vocabulary.xml.XmlFormatSelected;
 
 @Component
+@Lazy
 @Conditional(XmlFormatSelected.class)
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class DubiouslangStringDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>

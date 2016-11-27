@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.vocabulary.rdf.RdfVocabulary;
 import scolomfr.web.tests.model.vocabulary.skos.SkosVocabulary;
+import scolomfr.web.tests.model.vocabulary.xml.XmlVocabulary;
 import scolomfr.web.tests.resources.MissingRessourceException;
 import scolomfr.web.tests.resources.ResourcesLoader;
 
@@ -57,6 +58,9 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 			break;
 		case SKOS:
 			vocabulary = new SkosVocabulary();
+			break;
+		case XML:
+			vocabulary = new XmlVocabulary();
 			break;
 		default:
 			throw new MissingRessourceException("Format " + format + " is not implemnted ");

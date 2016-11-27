@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
 import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 
 @Component
+@Lazy(value = true)
 @Conditional(SkosFormatSelected.class)
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
