@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.utils.Tree;
@@ -24,51 +27,15 @@ import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 @Lazy(value = true)
 @Conditional(SkosFormatSelected.class)
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@PropertySource("classpath:properties/label.properties")
 public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
 		implements InconsistentCaseDetector {
 
+	@Autowired
+	Environment env;
+
 	private int nbListUppercase;
 	private int nbListLowercase;
-
-	private List<String> nomsPropres = new ArrayList<String>() {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			add("Celtes");
-			add("Clovis");
-			add("Rome");
-			add("État");
-			add("Napoléon");
-			add("Guyane");
-			add("Flandres");
-			add("Éduthèque");
-			add("François");
-			add("Françaises");
-			add("Homo");
-			add("Louis");
-			add("henri");
-			add("Byzance");
-			add("amaya");
-			add("windows");
-			add("netscape");
-			add("opera");
-			add("mozilla");
-			add("safari");
-			add("google");
-			add("microsoft");
-			add("ms-windows");
-			add("linux");
-			add("android");
-			add("blackberry");
-			add("ios");
-			add("mac");
-			add("symbian");
-			add("Chrome");
-		}
-	};
 
 	/**
 	 * 
@@ -142,6 +109,7 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 	}
 
 	private boolean isNomPropre(String label) {
+		String[] nomsPropres = env.getProperty("proper").split(",");
 		for (String nomPropre : nomsPropres) {
 			if (label.toLowerCase().startsWith(nomPropre.toLowerCase())) {
 				return true;
