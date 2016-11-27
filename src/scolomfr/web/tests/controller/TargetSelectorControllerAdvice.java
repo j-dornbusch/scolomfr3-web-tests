@@ -14,7 +14,12 @@ public class TargetSelectorControllerAdvice {
 
 	@ModelAttribute
 	public void formatAttributes(Model model) {
+		model.addAttribute("currentFormat", Formats.getCurrent());
 		model.addAttribute("formats", Arrays.asList(Formats.values()));
+	}
+
+	public static void forceFormatAttributes(Model model) {
+
 	}
 
 	@ModelAttribute

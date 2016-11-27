@@ -6,7 +6,9 @@
 		<div class="dropdown nav pull-right">
 			<select class="form-control target-selector" name="format">
 				<c:forEach items="${formats}" var="format">
-					<option value="${format}">${format}</option>
+					<option
+						<c:if test="${format==currentFormat}">selected="selected"</c:if>
+						value="${format}">${format}</option>
 				</c:forEach>
 			</select>
 		</div>

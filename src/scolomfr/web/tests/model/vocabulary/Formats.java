@@ -4,7 +4,7 @@ public enum Formats {
 	SKOS("SKOS"), RDF("RDF"), XML("XML"), HTML("HTML"), XSD("XSD");
 
 	private String value;
-	private static Formats current;
+	private static Formats current = Formats.SKOS;
 
 	private Formats(String value) {
 		this.value = value;

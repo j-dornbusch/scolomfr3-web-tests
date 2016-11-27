@@ -4,6 +4,6 @@ import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
 public interface Algorithm<T> {
 
-	T analyse(Vocabulary vocabulary);
+	T analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
 
 }

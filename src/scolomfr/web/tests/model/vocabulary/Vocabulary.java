@@ -10,6 +10,7 @@ import org.apache.jena.rdf.model.Model;
 
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.vocabulary.algorithm.Algorithm;
+import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
 
 public interface Vocabulary {
 
@@ -87,6 +88,6 @@ public interface Vocabulary {
 
 	TreeMap<String, ArrayList<String>> getMissingPrefLabels();
 
-	<T> T apply(Algorithm<T> algorithm);
+	<T> T apply(Algorithm<T> algorithm) throws AlgorithmNotImplementedException;
 
 }

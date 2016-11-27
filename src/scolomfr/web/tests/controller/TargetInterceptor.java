@@ -13,6 +13,7 @@ public class TargetInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		System.out.println("#####################target intercpeotr");
 		String version = request.getParameter("version");
 		String format = request.getParameter("format");
 		try {

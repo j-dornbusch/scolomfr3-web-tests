@@ -1,10 +1,11 @@
-package scolomfr.web.tests.model.vocabulary.skos;
+package scolomfr.web.tests.model.vocabulary.algorithm;
 
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.context.annotation.RequestScope;
+
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.algorithm.Algorithm;
 
 public interface InconsistentCaseDetector extends Algorithm<Map<String, List<String>>> {
 
@@ -24,6 +25,6 @@ public interface InconsistentCaseDetector extends Algorithm<Map<String, List<Str
 	 * 
 	 * @return une map uri du parent -> liste des preflabels problématiques
 	 */
-	public Map<String, List<String>> analyse(Vocabulary vocabulary);
+	public Map<String, List<String>> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
 
 }

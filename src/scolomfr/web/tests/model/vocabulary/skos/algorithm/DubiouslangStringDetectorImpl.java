@@ -1,4 +1,4 @@
-package scolomfr.web.tests.model.vocabulary.skos;
+package scolomfr.web.tests.model.vocabulary.skos.algorithm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,14 +17,21 @@ import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.atlascopco.hunspell.Hunspell;
 
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
+import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
+import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 
 @Component
+@Conditional(SkosFormatSelected.class)
+@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class DubiouslangStringDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
 		implements DubiousLangStringDetector {
 

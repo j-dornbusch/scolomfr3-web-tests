@@ -1,4 +1,4 @@
-package scolomfr.web.tests.model.vocabulary.skos;
+package scolomfr.web.tests.model.vocabulary.skos.algorithm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,15 +7,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.utils.Tree.Node;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
+import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
+import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 
 @Component
-public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>> implements InconsistentCaseDetector {
+@Conditional(SkosFormatSelected.class)
+@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
+		implements InconsistentCaseDetector {
 
 	private int nbListUppercase;
 	private int nbListLowercase;
@@ -141,16 +149,22 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector#getNbListUppercase()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector#
+	 * getNbListUppercase()
 	 */
 	@Override
 	public int getNbListUppercase() {
 		return nbListUppercase;
 	}
 
-	/* (non-Javadoc)
-	 * @see scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector#getNbListLowercase()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see scolomfr.web.tests.model.vocabulary.skos.InconsistentCaseDetector#
+	 * getNbListLowercase()
 	 */
 	@Override
 	public int getNbListLowercase() {

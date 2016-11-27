@@ -10,6 +10,7 @@ import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.model.vocabulary.algorithm.Algorithm;
 import scolomfr.web.tests.resources.MissingRessourceException;
 
 @Configuration
@@ -19,13 +20,8 @@ public class AppConfig {
 	@RequestScope
 	@Autowired
 	public Vocabulary vocabulary(VocabularyFactory vocabularyFactory) throws MissingRessourceException {
-		return vocabularyFactory.get(Formats.getCurrent(), Versions.getCurrent());
+		Vocabulary vocabulary = vocabularyFactory.get(Formats.getCurrent(), Versions.getCurrent());
+		return vocabulary;
 	}
 
-	@Bean
-	@Scope("application")
-	@Autowired
-	public Vocabulary rdfVocabulary(VocabularyFactory vocabularyFactory) throws MissingRessourceException {
-		return vocabularyFactory.get(Formats.RDF, Versions.getCurrent());
-	}
 }
