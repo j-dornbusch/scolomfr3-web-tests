@@ -1,13 +1,12 @@
 package scolomfr.web.tests.model.vocabulary;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
 
+import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.vocabulary.algorithm.Algorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
@@ -86,7 +85,6 @@ public interface Vocabulary {
 	 */
 	Map<String, String> getInformationForUri(String uri);
 
-
-	<T> T apply(Algorithm<T> algorithm) throws AlgorithmNotImplementedException;
+	Result apply(Algorithm algorithm) throws AlgorithmNotImplementedException;
 
 }

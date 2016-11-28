@@ -16,29 +16,37 @@ import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.resources.MissingResourceException;
 
 @Controller
 public class TreeParserController {
 
 	@Autowired
-	private Vocabulary vocabulary;
+	private VocabularyFactory vocabularyFactory;
 
 	@RequestMapping("/trees")
 	public ModelAndView completeSkosParsing(@RequestParam(name = "uri", required = false) String uri,
-			@RequestParam(name = "use_member", required = false, defaultValue = "true") Boolean useMember) {
-		Map<String, String> treeRoots = useMember ? vocabulary.getVocabRoots() : vocabulary.getTreeRoots();
+			@RequestParam(name = "use_member", required = false, defaultValue = "true") Boolean useMember)
+			throws MissingResourceException {
+		Map<String, String> treeRoots = useMember ? getCurrentVocabulary().getVocabRoots()
+				: getCurrentVocabulary().getTreeRoots();
 		if (StringUtils.isEmpty(uri)) {
 			Set<String> uris = treeRoots.keySet();
 			uri = (String) uris.toArray()[0];
 		}
-		Tree<Pair<String, String>> tree = vocabulary.getTreeForUri(uri, useMember);
+		Tree<Pair<String, String>> tree = getCurrentVocabulary().getTreeForUri(uri, useMember);
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-trees");
 		modelAndView.addObject("treeRoots", treeRoots);
 		modelAndView.addObject("uri", uri);
 		modelAndView.addObject("useMember", useMember);
 		modelAndView.addObject("tree", tree);
 		modelAndView.addObject("page", "trees");
-		
+
 		return modelAndView;
+	}
+
+	private Vocabulary getCurrentVocabulary() throws MissingResourceException {
+		return vocabularyFactory.get(Formats.getCurrent(), Versions.getCurrent());
 	}
 }

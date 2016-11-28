@@ -1,35 +1,25 @@
 package scolomfr.web.tests.model.vocabulary.skos.algorithm;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.utils.Tree.Node;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
-import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 
 @Component
-@Lazy(value = true)
-@Conditional(SkosFormatSelected.class)
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-@PropertySource("classpath:properties/label.properties")
-public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
-		implements InconsistentCaseDetector {
+public class SkosInconsistentCaseDetectorImpl extends AbstractAlgorithm implements InconsistentCaseDetector {
 
 	@Autowired
 	Environment env;
@@ -44,24 +34,28 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 	 * @return une map uri du parent -> liste des preflabels problématiques
 	 */
 	@Override
-	public Map<String, List<String>> analyse(Vocabulary vocabulary) {
+	public Result analyse(Vocabulary vocabulary) {
 
 		Map<String, String> vocabRoots = vocabulary.getVocabRoots();
 		Iterator<String> it = vocabRoots.keySet().iterator();
-		Map<String, List<String>> results = new HashMap<>();
+		TreeMap<String, ArrayList<String>> inconsistent = new TreeMap<>();
 		nbListUppercase = 0;
 		nbListLowercase = 0;
 		while (it.hasNext()) {
 			String uri = it.next();
 			Tree<Pair<String, String>> tree = vocabulary.getTreeForUri(uri, true);
-			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), results, vocabulary);
+			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), inconsistent,
+					vocabulary);
 		}
-		return results;
+		Result result = new Result();
+		result.setContent(inconsistent);
+		result.setErrors(inconsistent.size());
+		return result;
 
 	}
 
 	private void detectCaseConcernsRecursively(Pair<String, String> rootData, List<Node<Pair<String, String>>> children,
-			Map<String, List<String>> results, Vocabulary vocabulary) {
+			TreeMap<String, ArrayList<String>> inconsistent, Vocabulary vocabulary) {
 		Boolean caseConcern = false;
 
 		Iterator<Node<Pair<String, String>>> it = children.iterator();
@@ -83,10 +77,11 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 			}
 
 			Tree<Pair<String, String>> tree = vocabulary.getTreeForUri(node.getData().getLeft(), false);
-			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), results, vocabulary);
+			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), inconsistent,
+					vocabulary);
 		}
 		if (caseConcern) {
-			List<String> labelsWithFlags = new ArrayList<>();
+			ArrayList<String> labelsWithFlags = new ArrayList<>();
 			Iterator<String> it2 = labels.iterator();
 			while (it2.hasNext()) {
 				String label = (String) it2.next();
@@ -98,7 +93,7 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 				labelsWithFlags.add(label);
 			}
 
-			results.put(rootData.getLeft(), labelsWithFlags);
+			inconsistent.put(rootData.getLeft(), labelsWithFlags);
 		}
 	}
 
@@ -123,7 +118,8 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 
 	private String[] getNomsPropres() {
 		if (null == nomsPropres) {
-			nomsPropres = env.getProperty("proper").split(",");
+			String property = env.getProperty("proper");
+			nomsPropres = property.split(",");
 		}
 		return nomsPropres;
 	}

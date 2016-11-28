@@ -15,17 +15,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import scolomfr.web.tests.model.vocabulary.Formats;
+import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.resources.MissingResourceException;
 
 @Controller
 public class SearchControler {
 
 	@Autowired
-	private Vocabulary vocabulary;
+	private VocabularyFactory vocabularyFactory;
 
 	@RequestMapping("/search")
 	public String displaySearchPage(@RequestParam(name = "query", required = false, defaultValue = "") String query,
-			@RequestParam(name = "uri", required = false, defaultValue = "") String uri, Model model) {
+			@RequestParam(name = "uri", required = false, defaultValue = "") String uri, Model model)
+			throws MissingResourceException {
 		// La recherche est faite soit par uri, soit par query en language
 		// naturel
 		Map<String, Map<String, String>> results = new HashMap<>();
@@ -38,13 +43,13 @@ public class SearchControler {
 			uris.add(uri);
 		} else if (!StringUtils.isEmpty(query)) {
 			// Sinon, par défaut, on cherche par query
-			uris = vocabulary.getLabelsForStringPattern(query).keySet();
+			uris = getCurrentVocabulary().getLabelsForStringPattern(query).keySet();
 			model.addAttribute("query", query);
 		}
 		Iterator<String> it = uris.iterator();
 		while (it.hasNext()) {
 			String entryUri = (String) it.next();
-			results.put(entryUri, vocabulary.getInformationForUri(entryUri));
+			results.put(entryUri, getCurrentVocabulary().getInformationForUri(entryUri));
 		}
 		model.addAttribute("results", results);
 		model.addAttribute("page", "search");
@@ -53,7 +58,12 @@ public class SearchControler {
 
 	@RequestMapping(value = "/search/autocomplete", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody Map<String, String> autocompleteOnLabels(
-			@RequestParam(name = "query", required = false, defaultValue = "") String query) {
-		return vocabulary.getLabelsForStringPattern(query);
+			@RequestParam(name = "query", required = false, defaultValue = "") String query)
+			throws MissingResourceException {
+		return getCurrentVocabulary().getLabelsForStringPattern(query);
+	}
+
+	private Vocabulary getCurrentVocabulary() throws MissingResourceException {
+		return vocabularyFactory.get(Formats.getCurrent(), Versions.getCurrent());
 	}
 }

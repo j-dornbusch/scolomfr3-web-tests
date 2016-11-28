@@ -1,9 +1,7 @@
 package scolomfr.web.tests.model.vocabulary.skos.algorithm;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,31 +15,24 @@ import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.atlascopco.hunspell.Hunspell;
 
+import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
-import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 
 @Component
-@Lazy
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Conditional(SkosFormatSelected.class)
-public class DubiouslangStringDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
-		implements DubiousLangStringDetector {
+public class SkosDubiouslangStringDetectorImpl extends AbstractAlgorithm implements DubiousLangStringDetector {
 
 	@Override
-	public Map<String, List<String>> analyse(Vocabulary vocabulary) {
+	public Result analyse(Vocabulary vocabulary) {
 		Pattern abbreviationsPattern = Pattern.compile("^([A-Za-zàèéêîôûù]+\\.\\s*)+([A-Za-zàèéêîôûù]+\\.*\\s*)$");
 
-		Map<String, List<String>> dubious = new HashMap<>();
+		TreeMap<String, ArrayList<String>> dubious = new TreeMap<>();
 		Hunspell speller = new Hunspell("/usr/share/hunspell/fr_FR.dic", "/usr/share/hunspell/fr_FR.aff");
 		Property prefLabel = vocabulary.getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
 		Property altLabel = vocabulary.getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "altLabel");
@@ -110,7 +101,10 @@ public class DubiouslangStringDetectorImpl extends AbstractAlgorithm<Map<String,
 		}
 		speller.close();
 
-		return dubious;
+		Result result = new Result();
+		result.setContent(dubious);
+		result.setErrors(dubious.size());
+		return result;
 	}
 
 	private boolean memberOfVocab(Resource vocab, Resource subject, Vocabulary vocabulary) {

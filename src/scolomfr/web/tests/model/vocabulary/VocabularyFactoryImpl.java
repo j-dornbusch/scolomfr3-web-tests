@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import scolomfr.web.tests.model.vocabulary.rdf.RdfVocabulary;
 import scolomfr.web.tests.model.vocabulary.skos.SkosVocabulary;
 import scolomfr.web.tests.model.vocabulary.xml.XmlVocabulary;
-import scolomfr.web.tests.resources.MissingRessourceException;
+import scolomfr.web.tests.resources.MissingResourceException;
 import scolomfr.web.tests.resources.ResourcesLoader;
 
 @Component
@@ -33,7 +33,7 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 	private EnumMap<Formats, EnumMap<Versions, Vocabulary>> vocabularyPool;
 
 	@Override
-	public Vocabulary get(Formats format, Versions version) throws MissingRessourceException {
+	public Vocabulary get(Formats format, Versions version) throws MissingResourceException {
 		if (null == vocabularyPool) {
 			vocabularyPool = new EnumMap<>(Formats.class);
 		}
@@ -50,7 +50,8 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 		inputFileName = env.getProperty(inputFileNameProperty);
 
 		if (StringUtils.isEmpty(inputFileName)) {
-			throw new MissingRessourceException("No file is provided for format " + format + " and version " + version);
+			throw new MissingResourceException(
+					"Aucun fichier n'est fourni pour le format " + format + " et la version " + version + ".");
 		}
 		switch (format) {
 		case RDF:
@@ -63,11 +64,11 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 			vocabulary = new XmlVocabulary();
 			break;
 		default:
-			throw new MissingRessourceException("Format " + format + " is not implemnted ");
+			throw new MissingResourceException("Format " + format + " is not implemnted ");
 		}
 		InputStream in = resourcesLoader.loadResource(inputFileName);
 		if (null == in) {
-			throw new MissingRessourceException(
+			throw new MissingResourceException(
 					"File " + inputFileName + " is missing for vocabulary identifier" + format.toString());
 		}
 		model.read(in, null);

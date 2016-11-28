@@ -5,13 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.jena.base.Sys;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.proxy.Proxy;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,56 +17,68 @@ import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
+import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithmFactory;
+import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmFactory;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
 import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
 import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
 import scolomfr.web.tests.model.vocabulary.algorithm.MissingPrefLabelDetector;
+import scolomfr.web.tests.resources.MissingResourceException;
 
 @Controller
 public class LabelsController {
 
 	@Autowired
-	private Vocabulary vocabulary;
+	private VocabularyFactory vocabularyFactory;
 
 	@Autowired
-	private ApplicationContext applicationContext;
+	private AbstractAlgorithmFactory abstractAlgorithmFactory;
 
 	@RequestMapping("/labels")
-	public ModelAndView labelConcerns() throws AlgorithmNotImplementedException {
+	public ModelAndView labelConcerns() throws AlgorithmNotImplementedException, MissingResourceException {
 
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-labels");
-		InconsistentCaseDetector inconsistentCaseDetector = applicationContext.getBean(InconsistentCaseDetector.class);
-		Map<String, List<String>> caseConcerns = null;
-		caseConcerns = vocabulary.apply(inconsistentCaseDetector);
+		InconsistentCaseDetector inconsistentCaseDetector = (InconsistentCaseDetector) algorithmFactory()
+				.getAlgorithm(InconsistentCaseDetector.class);
+		Result inconsistentCase = getCurrentVocabulary().apply(inconsistentCaseDetector);
+		Map<String, ArrayList<String>> caseConcerns = inconsistentCase.getContent();
 
 		modelAndView.addObject("caseConcerns", caseConcerns);
 		modelAndView.addObject("nbListsLowercase", inconsistentCaseDetector.getNbListLowercase());
 		modelAndView.addObject("nbListsUppercase", inconsistentCaseDetector.getNbListUppercase());
-		TreeMap<String, List<String>> sortedLanguageConcernsMap = null;
-		DubiousLangStringDetector dubiousLangStringDetector = applicationContext
-				.getBean(DubiousLangStringDetector.class);
-		sortedLanguageConcernsMap = new TreeMap<String, List<String>>(vocabulary.apply(dubiousLangStringDetector));
+
+		DubiousLangStringDetector dubiousLangStringDetector = (DubiousLangStringDetector) algorithmFactory()
+				.getAlgorithm(DubiousLangStringDetector.class);
+		Result dubious = getCurrentVocabulary().apply(dubiousLangStringDetector);
+		TreeMap<String, List<String>> sortedLanguageConcernsMap = new TreeMap<String, List<String>>(
+				dubious.getContent());
 
 		modelAndView.addObject("languageConcerns", sortedLanguageConcernsMap);
-		MissingPrefLabelDetector missingPrefLabelDetector = applicationContext.getBean(MissingPrefLabelDetector.class);
-		TreeMap<String, List<String>> sortedMissingLabelsMap = new TreeMap<>(
-				vocabulary.apply(missingPrefLabelDetector));
+		MissingPrefLabelDetector missingPrefLabelDetector = (MissingPrefLabelDetector) algorithmFactory()
+				.getAlgorithm(MissingPrefLabelDetector.class);
+		Result missingPrefLabels = getCurrentVocabulary().apply(missingPrefLabelDetector);
+		TreeMap<String, List<String>> sortedMissingLabelsMap = new TreeMap<>(missingPrefLabels.getContent());
 		modelAndView.addObject("missingLabels", sortedMissingLabelsMap);
 		modelAndView.addObject("page", "labels");
 		return modelAndView;
 	}
 
+	private AlgorithmFactory algorithmFactory() throws AlgorithmNotImplementedException {
+		return abstractAlgorithmFactory.getAlgorithmFactory(Formats.getCurrent());
+	}
+
 	@RequestMapping(path = "/labels/missing", produces = "application/xml")
 	@ResponseBody
-	public ResponseEntity<Result> missingLabels() throws AlgorithmNotImplementedException {
+	public ResponseEntity<Result> missingLabels() throws AlgorithmNotImplementedException, MissingResourceException {
 
-		MissingPrefLabelDetector missingPrefLabelDetector = applicationContext.getBean(MissingPrefLabelDetector.class);
-		TreeMap<String, ArrayList<String>> sortedMissingLabelsMap = new TreeMap<>(
-				vocabulary.apply(missingPrefLabelDetector));
-		Result result = new Result();
-		result.setContent(sortedMissingLabelsMap);
-		result.setErrors(sortedMissingLabelsMap.size());
-		return new ResponseEntity<Result>(result, HttpStatus.EXPECTATION_FAILED);
+		MissingPrefLabelDetector missingPrefLabelDetector = (MissingPrefLabelDetector) algorithmFactory()
+				.getAlgorithm(MissingPrefLabelDetector.class);
+		return new ResponseEntity<Result>(getCurrentVocabulary().apply(missingPrefLabelDetector), HttpStatus.EXPECTATION_FAILED);
+	}
+	
+	private  Vocabulary getCurrentVocabulary() throws MissingResourceException {
+		return vocabularyFactory.get(Formats.getCurrent(), Versions.getCurrent());
 	}
 
 }

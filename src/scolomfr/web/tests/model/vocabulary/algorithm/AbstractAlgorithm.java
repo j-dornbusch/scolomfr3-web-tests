@@ -4,11 +4,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
+import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
 @Lazy
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public abstract class AbstractAlgorithm<T> implements Algorithm<T> {
+public abstract class AbstractAlgorithm implements Algorithm {
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -17,5 +18,5 @@ public abstract class AbstractAlgorithm<T> implements Algorithm<T> {
 	 * model.vocabulary.Vocabulary)
 	 */
 	@Override
-	public abstract T analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
+	public abstract Result analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
 }

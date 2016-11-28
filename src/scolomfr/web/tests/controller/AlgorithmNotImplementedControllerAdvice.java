@@ -4,11 +4,8 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import scolomfr.web.tests.model.vocabulary.Formats;
@@ -22,7 +19,7 @@ public class AlgorithmNotImplementedControllerAdvice {
 	public ModelAndView handleAlgorithmNotImplementedException(HttpServletRequest request, Exception ex) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("message", "Algorithme non implémenté sur ce format");
+		modelAndView.addObject("message", "Algorithme non implémenté pour ce format");
 		modelAndView.setViewName("scolomfr3-exception");
 		modelAndView.addObject("currentFormat", Formats.getCurrent());
 		modelAndView.addObject("formats", Arrays.asList(Formats.values()));

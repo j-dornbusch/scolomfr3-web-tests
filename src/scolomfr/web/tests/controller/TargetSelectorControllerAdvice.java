@@ -18,10 +18,6 @@ public class TargetSelectorControllerAdvice {
 		model.addAttribute("formats", Arrays.asList(Formats.values()));
 	}
 
-	public static void forceFormatAttributes(Model model) {
-
-	}
-
 	@ModelAttribute
 	public void versionAttributes(Model model) {
 		model.addAttribute("currentVersion", Versions.getCurrent());
