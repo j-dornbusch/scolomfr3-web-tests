@@ -86,7 +86,6 @@ public interface Vocabulary {
 	 */
 	Map<String, String> getInformationForUri(String uri);
 
-	TreeMap<String, ArrayList<String>> getMissingPrefLabels();
 
 	<T> T apply(Algorithm<T> algorithm) throws AlgorithmNotImplementedException;
 

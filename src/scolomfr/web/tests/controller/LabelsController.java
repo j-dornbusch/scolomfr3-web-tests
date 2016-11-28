@@ -26,6 +26,7 @@ import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
 import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
 import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
+import scolomfr.web.tests.model.vocabulary.algorithm.MissingPrefLabelDetector;
 
 @Controller
 public class LabelsController {
@@ -40,9 +41,7 @@ public class LabelsController {
 	public ModelAndView labelConcerns() throws AlgorithmNotImplementedException {
 
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-labels");
-		System.out.println("Here y ask for a fresh bean");
 		InconsistentCaseDetector inconsistentCaseDetector = applicationContext.getBean(InconsistentCaseDetector.class);
-		System.out.println("I got my bean of class " + inconsistentCaseDetector.getClass());
 		Map<String, List<String>> caseConcerns = null;
 		caseConcerns = vocabulary.apply(inconsistentCaseDetector);
 
@@ -55,8 +54,9 @@ public class LabelsController {
 		sortedLanguageConcernsMap = new TreeMap<String, List<String>>(vocabulary.apply(dubiousLangStringDetector));
 
 		modelAndView.addObject("languageConcerns", sortedLanguageConcernsMap);
-		TreeMap<String, List<String>> sortedMissingLabelsMap = new TreeMap<String, List<String>>(
-				vocabulary.getMissingPrefLabels());
+		MissingPrefLabelDetector missingPrefLabelDetector = applicationContext.getBean(MissingPrefLabelDetector.class);
+		TreeMap<String, List<String>> sortedMissingLabelsMap = new TreeMap<>(
+				vocabulary.apply(missingPrefLabelDetector));
 		modelAndView.addObject("missingLabels", sortedMissingLabelsMap);
 		modelAndView.addObject("page", "labels");
 		return modelAndView;
@@ -64,14 +64,15 @@ public class LabelsController {
 
 	@RequestMapping(path = "/labels/missing", produces = "application/xml")
 	@ResponseBody
-	public ResponseEntity<Result> missingLabels() {
-		TreeMap<String, ArrayList<String>> sortedMissingLabelsMap = new TreeMap<String, ArrayList<String>>(
-				vocabulary.getMissingPrefLabels());
+	public ResponseEntity<Result> missingLabels() throws AlgorithmNotImplementedException {
+
+		MissingPrefLabelDetector missingPrefLabelDetector = applicationContext.getBean(MissingPrefLabelDetector.class);
+		TreeMap<String, ArrayList<String>> sortedMissingLabelsMap = new TreeMap<>(
+				vocabulary.apply(missingPrefLabelDetector));
 		Result result = new Result();
 		result.setContent(sortedMissingLabelsMap);
 		result.setErrors(sortedMissingLabelsMap.size());
 		return new ResponseEntity<Result>(result, HttpStatus.EXPECTATION_FAILED);
 	}
-
 
 }

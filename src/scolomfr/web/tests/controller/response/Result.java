@@ -1,7 +1,6 @@
 package scolomfr.web.tests.controller.response;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.bind.annotation.XmlAccessType;

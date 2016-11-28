@@ -66,10 +66,5 @@ public class XmlVocabulary extends AbstractVocabulary {
 		return null;
 	}
 
-	@Override
-	public TreeMap<String, ArrayList<String>> getMissingPrefLabels() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -32,8 +32,8 @@ import scolomfr.web.tests.model.vocabulary.skos.SkosFormatSelected;
 
 @Component
 @Lazy
-@Conditional(SkosFormatSelected.class)
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Conditional(SkosFormatSelected.class)
 public class DubiouslangStringDetectorImpl extends AbstractAlgorithm<Map<String, List<String>>>
 		implements DubiousLangStringDetector {
 

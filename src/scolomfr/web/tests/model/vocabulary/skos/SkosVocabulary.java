@@ -363,37 +363,5 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return list;
 	}
 
-	
-
-
-
-	@Override
-	public TreeMap<String, ArrayList<String>> getMissingPrefLabels() {
-		TreeMap<String, ArrayList<String>> missingPrefLabels = new TreeMap<>();
-		Property prefLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
-		Property altLabel = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "altLabel");
-		Selector globalSelector = new SimpleSelector(null, null, (RDFNode) null);
-
-		StmtIterator stmts1 = getModel().listStatements(globalSelector);
-
-		while (stmts1.hasNext()) {
-
-			Statement statement = (Statement) stmts1.next();
-			Selector prefLabelSelector = new SimpleSelector(statement.getSubject(), prefLabel, (RDFNode) null);
-			StmtIterator stmts2 = getModel().listStatements(prefLabelSelector);
-			if (!stmts2.hasNext()) {
-				missingPrefLabels.put(statement.getSubject().getURI(), new ArrayList<>());
-				Selector altLabelSelector = new SimpleSelector(statement.getSubject(), altLabel, (RDFNode) null);
-				StmtIterator stmts3 = getModel().listStatements(altLabelSelector);
-				while (stmts3.hasNext()) {
-					Statement altLabelStatement = (Statement) stmts3.next();
-					missingPrefLabels.get(statement.getSubject().getURI())
-							.add(((Literal) altLabelStatement.getObject()).getString());
-
-				}
-			}
-		}
-		return missingPrefLabels;
-	}
 
 }

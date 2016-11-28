@@ -37,6 +37,8 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 	private int nbListUppercase;
 	private int nbListLowercase;
 
+	private String[] nomsPropres;
+
 	/**
 	 * 
 	 * @return une map uri du parent -> liste des preflabels problématiques
@@ -109,14 +111,21 @@ public class InconsistentCaseDetectorImpl extends AbstractAlgorithm<Map<String, 
 	}
 
 	private boolean isNomPropre(String label) {
-		String[] nomsPropres = env.getProperty("proper").split(",");
-		for (String nomPropre : nomsPropres) {
+
+		for (String nomPropre : getNomsPropres()) {
 			if (label.toLowerCase().startsWith(nomPropre.toLowerCase())) {
 				return true;
 			}
 
 		}
 		return false;
+	}
+
+	private String[] getNomsPropres() {
+		if (null == nomsPropres) {
+			nomsPropres = env.getProperty("proper").split(",");
+		}
+		return nomsPropres;
 	}
 
 	/*
