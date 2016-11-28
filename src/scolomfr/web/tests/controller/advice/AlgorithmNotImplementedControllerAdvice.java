@@ -1,4 +1,4 @@
-package scolomfr.web.tests.controller;
+package scolomfr.web.tests.controller.advice;
 
 import java.util.Arrays;
 
@@ -10,16 +10,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
-import scolomfr.web.tests.resources.MissingResourceException;
+import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
 
 @ControllerAdvice(basePackages = { "scolomfr.web.tests.controller" })
-public class MissingRessourceControllerAdvice {
+public class AlgorithmNotImplementedControllerAdvice {
 
-	@ExceptionHandler(MissingResourceException.class)
-	public ModelAndView handleMissingRessourceException(HttpServletRequest request, Exception ex) {
+	@ExceptionHandler(AlgorithmNotImplementedException.class)
+	public ModelAndView handleAlgorithmNotImplementedException(HttpServletRequest request, Exception ex) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("message", ex.getMessage());
+		modelAndView.addObject("message", "Algorithme non implémenté pour ce format");
 		modelAndView.setViewName("scolomfr3-exception");
 		modelAndView.addObject("currentFormat", Formats.getCurrent());
 		modelAndView.addObject("formats", Arrays.asList(Formats.values()));

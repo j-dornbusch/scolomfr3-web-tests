@@ -1,4 +1,4 @@
-package scolomfr.web.tests.controller;
+package scolomfr.web.tests.controller.advice;
 
 import java.util.Arrays;
 
