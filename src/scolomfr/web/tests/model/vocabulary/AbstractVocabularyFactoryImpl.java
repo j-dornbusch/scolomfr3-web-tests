@@ -1,22 +1,14 @@
 package scolomfr.web.tests.model.vocabulary;
 
-import java.io.InputStream;
 import java.util.EnumMap;
-import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import scolomfr.web.tests.model.vocabulary.rdf.RdfVocabulary;
-import scolomfr.web.tests.model.vocabulary.skos.SkosVocabulary;
 import scolomfr.web.tests.model.vocabulary.skos.algorithm.SkosVocabularyFactoryImpl;
-import scolomfr.web.tests.model.vocabulary.xml.XmlVocabulary;
 import scolomfr.web.tests.model.vocabulary.xml.XmlVocabularyFactoryImpl;
 import scolomfr.web.tests.resources.MissingResourceException;
 import scolomfr.web.tests.resources.ResourcesLoader;

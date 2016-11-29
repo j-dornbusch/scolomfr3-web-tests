@@ -32,12 +32,6 @@ public class XmlVocabulary extends AbstractVocabulary {
 	}
 
 	@Override
-	public List<Pair<String, String>> getMissingBroaderRelations() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Map<String, String> getVocabRoots() {
 		// TODO Auto-generated method stub
 		return null;

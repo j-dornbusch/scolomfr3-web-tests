@@ -1,6 +1,8 @@
 package scolomfr.web.tests.model.vocabulary.skos.algorithm;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,10 +31,10 @@ import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
 public class SkosDubiouslangStringDetectorImpl extends AbstractAlgorithm implements DubiousLangStringDetector {
 
 	@Override
-	public Result analyse(Vocabulary vocabulary) {
+	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) {
 		Pattern abbreviationsPattern = Pattern.compile("^([A-Za-zàèéêîôûù]+\\.\\s*)+([A-Za-zàèéêîôûù]+\\.*\\s*)$");
 
-		TreeMap<String, ArrayList<String>> dubious = new TreeMap<>();
+		Map<String, List<String>> dubious = new TreeMap<>();
 		Hunspell speller = new Hunspell("/usr/share/hunspell/fr_FR.dic", "/usr/share/hunspell/fr_FR.aff");
 		Property prefLabel = vocabulary.getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
 		Property altLabel = vocabulary.getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "altLabel");
@@ -49,7 +51,7 @@ public class SkosDubiouslangStringDetectorImpl extends AbstractAlgorithm impleme
 		Resource vocab024 = vocabulary.getModel().getResource("http://data.education.fr/voc/scolomfr/scolomfr-voc-024");
 
 		while (stmts.hasNext()) {
-			Statement statement = (Statement) stmts.next();
+			Statement statement = stmts.next();
 
 			if (memberOfVocab(vocab001, statement.getSubject(), vocabulary)
 					|| memberOfVocab(vocab024, statement.getSubject(), vocabulary)
@@ -101,7 +103,7 @@ public class SkosDubiouslangStringDetectorImpl extends AbstractAlgorithm impleme
 		}
 		speller.close();
 
-		Result result = new Result();
+		Result<Map<String, List<String>>> result = new Result<>();
 		result.setContent(dubious);
 		result.setErrors(dubious.size());
 		return result;

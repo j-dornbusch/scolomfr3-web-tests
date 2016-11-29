@@ -52,14 +52,6 @@ public interface Vocabulary {
 	 */
 	List<Pair<String, String>> getRevertedBroaderRelations();
 
-	/**
-	 * Liste les relations narrower qui n'ont pas pour pendant une relation
-	 * broader
-	 * 
-	 * @return une liste de paires uri, prefLabel
-	 */
-	List<Pair<String, String>> getMissingBroaderRelations();
-
 	Tree<Pair<String, String>> getTreeForUri(String uri, boolean useMember);
 
 	/**
@@ -78,7 +70,7 @@ public interface Vocabulary {
 	 */
 	Map<String, String> getInformationForUri(String uri);
 
-	Result apply(Algorithm algorithm) throws AlgorithmNotImplementedException;
+	Result<?> apply(Algorithm algorithm) throws AlgorithmNotImplementedException;
 
 	String prefLabelWithUri(Resource resource);
 

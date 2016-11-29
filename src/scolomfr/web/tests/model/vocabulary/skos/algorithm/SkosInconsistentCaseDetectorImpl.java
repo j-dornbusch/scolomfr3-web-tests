@@ -34,11 +34,11 @@ public class SkosInconsistentCaseDetectorImpl extends AbstractAlgorithm implemen
 	 * @return une map uri du parent -> liste des preflabels problématiques
 	 */
 	@Override
-	public Result analyse(Vocabulary vocabulary) {
+	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) {
 
 		Map<String, String> vocabRoots = vocabulary.getVocabRoots();
 		Iterator<String> it = vocabRoots.keySet().iterator();
-		TreeMap<String, ArrayList<String>> inconsistent = new TreeMap<>();
+		Map<String, List<String>> inconsistent = new TreeMap<>();
 		nbListUppercase = 0;
 		nbListLowercase = 0;
 		while (it.hasNext()) {
@@ -47,7 +47,7 @@ public class SkosInconsistentCaseDetectorImpl extends AbstractAlgorithm implemen
 			detectCaseConcernsRecursively(tree.getRoot().getData(), tree.getRoot().getChildren(), inconsistent,
 					vocabulary);
 		}
-		Result result = new Result();
+		Result<Map<String, List<String>>> result = new Result<>();
 		result.setContent(inconsistent);
 		result.setErrors(inconsistent.size());
 		return result;
@@ -55,7 +55,7 @@ public class SkosInconsistentCaseDetectorImpl extends AbstractAlgorithm implemen
 	}
 
 	private void detectCaseConcernsRecursively(Pair<String, String> rootData, List<Node<Pair<String, String>>> children,
-			TreeMap<String, ArrayList<String>> inconsistent, Vocabulary vocabulary) {
+			Map<String, List<String>> inconsistent, Vocabulary vocabulary) {
 		Boolean caseConcern = false;
 
 		Iterator<Node<Pair<String, String>>> it = children.iterator();
@@ -84,7 +84,7 @@ public class SkosInconsistentCaseDetectorImpl extends AbstractAlgorithm implemen
 			ArrayList<String> labelsWithFlags = new ArrayList<>();
 			Iterator<String> it2 = labels.iterator();
 			while (it2.hasNext()) {
-				String label = (String) it2.next();
+				String label = it2.next();
 				if (!Character.isLowerCase(label.charAt(0)) && !isNomPropre(label) && !isSigle(label)) {
 					label = "-" + label;
 				} else {

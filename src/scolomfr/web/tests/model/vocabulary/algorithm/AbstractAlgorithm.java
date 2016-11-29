@@ -1,5 +1,7 @@
 package scolomfr.web.tests.model.vocabulary.algorithm;
 
+import java.util.Collection;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -18,5 +20,5 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	 * model.vocabulary.Vocabulary)
 	 */
 	@Override
-	public abstract Result analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
+	public abstract Result<?> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
 }

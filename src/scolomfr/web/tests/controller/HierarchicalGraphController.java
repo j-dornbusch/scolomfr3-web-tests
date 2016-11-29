@@ -1,5 +1,9 @@
 package scolomfr.web.tests.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +33,8 @@ public class HierarchicalGraphController {
 	public ModelAndView graphAnalysis() throws MissingResourceException, AlgorithmNotImplementedException {
 		MissingRelationDetector missingRelationDetector = (MissingRelationDetector) algorithmFactory()
 				.getAlgorithm(MissingRelationDetector.class);
-		Result missingRelations = getCurrentVocabulary().apply(missingRelationDetector);
+		Result<Map<String, List<Pair<String, String>>>> missingRelations = (Result<Map<String, List<Pair<String, String>>>>) getCurrentVocabulary()
+				.apply(missingRelationDetector);
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-graphs");
 		modelAndView.addObject("revertedNarrower", getCurrentVocabulary().getRevertedNarrowerRelations());
 		modelAndView.addObject("revertedBroader", getCurrentVocabulary().getRevertedBroaderRelations());

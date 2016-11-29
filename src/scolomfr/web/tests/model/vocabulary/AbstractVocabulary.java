@@ -22,7 +22,7 @@ public abstract class AbstractVocabulary implements Vocabulary {
 	}
 
 	@Override
-	public Result apply(Algorithm algorithm) throws AlgorithmNotImplementedException {
+	public Result<?> apply(Algorithm algorithm) throws AlgorithmNotImplementedException {
 		return algorithm.analyse(this);
 	}
 

@@ -1,6 +1,8 @@
 package scolomfr.web.tests.model.vocabulary.xml.algorithm;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ import scolomfr.web.tests.model.vocabulary.algorithm.MissingPrefLabelDetector;
 public class XmlMissingPrefLabelDetectorImpl extends AbstractAlgorithm implements MissingPrefLabelDetector {
 
 	@Override
-	public Result analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException {
+	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException {
 		throw new AlgorithmNotImplementedException();
 	}
 

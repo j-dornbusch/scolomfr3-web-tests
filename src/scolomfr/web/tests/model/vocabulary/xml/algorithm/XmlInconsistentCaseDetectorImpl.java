@@ -1,5 +1,8 @@
 package scolomfr.web.tests.model.vocabulary.xml.algorithm;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +21,7 @@ public class XmlInconsistentCaseDetectorImpl extends AbstractAlgorithm implement
 	 * @throws AlgorithmNotImplementedException
 	 */
 	@Override
-	public Result analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException {
+	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException {
 		throw new AlgorithmNotImplementedException();
 	}
 

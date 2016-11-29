@@ -6,6 +6,6 @@ import scolomfr.web.tests.model.vocabulary.Vocabulary;
 @FunctionalInterface
 public interface Algorithm {
 
-	Result analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
+	Result<?> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
 
 }

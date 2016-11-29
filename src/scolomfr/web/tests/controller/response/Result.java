@@ -1,19 +1,21 @@
 package scolomfr.web.tests.controller.response;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Result {
+@XStreamAlias("result")
+public class Result<T> {
 
 	private Integer errors;
 
-	private TreeMap<String, ArrayList<String>> content;
+	@XmlAnyElement
+	private T content;
 
 	public Integer getErrors() {
 		return errors;
@@ -23,11 +25,11 @@ public class Result {
 		this.errors = errors;
 	}
 
-	public TreeMap<String, ArrayList<String>> getContent() {
+	public T getContent() {
 		return content;
 	}
 
-	public void setContent(TreeMap<String, ArrayList<String>> content) {
+	public void setContent(T content) {
 		this.content = content;
 	}
 

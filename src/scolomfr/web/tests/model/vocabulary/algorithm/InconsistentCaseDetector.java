@@ -1,5 +1,8 @@
 package scolomfr.web.tests.model.vocabulary.algorithm;
 
+import java.util.List;
+import java.util.Map;
+
 import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
 
@@ -22,6 +25,6 @@ public interface InconsistentCaseDetector extends Algorithm {
 	 * @return une map uri du parent -> liste des preflabels problématiques
 	 */
 	@Override
-	public Result analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
+	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException;
 
 }
