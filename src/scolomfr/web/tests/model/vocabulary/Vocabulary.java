@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
 
 import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.utils.Tree;
@@ -52,14 +53,6 @@ public interface Vocabulary {
 	List<Pair<String, String>> getRevertedBroaderRelations();
 
 	/**
-	 * Liste les relations broader qui n'ont pas pour pendant une relation
-	 * narrower
-	 * 
-	 * @return une liste de paires uri, prefLabel
-	 */
-	List<Pair<String, String>> getMissingNarrowerRelations();
-
-	/**
 	 * Liste les relations narrower qui n'ont pas pour pendant une relation
 	 * broader
 	 * 
@@ -86,5 +79,7 @@ public interface Vocabulary {
 	Map<String, String> getInformationForUri(String uri);
 
 	Result apply(Algorithm algorithm) throws AlgorithmNotImplementedException;
+
+	String prefLabelWithUri(Resource resource);
 
 }

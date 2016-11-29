@@ -17,7 +17,7 @@ import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.model.vocabulary.AbstractVocabularyFactory;
 import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithmFactory;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmFactory;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
@@ -30,7 +30,7 @@ import scolomfr.web.tests.resources.MissingResourceException;
 public class LabelsController {
 
 	@Autowired
-	private VocabularyFactory vocabularyFactory;
+	private AbstractVocabularyFactory vocabularyFactory;
 
 	@Autowired
 	private AbstractAlgorithmFactory abstractAlgorithmFactory;

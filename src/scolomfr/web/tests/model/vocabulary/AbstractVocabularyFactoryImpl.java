@@ -15,14 +15,16 @@ import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.vocabulary.rdf.RdfVocabulary;
 import scolomfr.web.tests.model.vocabulary.skos.SkosVocabulary;
+import scolomfr.web.tests.model.vocabulary.skos.algorithm.SkosVocabularyFactoryImpl;
 import scolomfr.web.tests.model.vocabulary.xml.XmlVocabulary;
+import scolomfr.web.tests.model.vocabulary.xml.XmlVocabularyFactoryImpl;
 import scolomfr.web.tests.resources.MissingResourceException;
 import scolomfr.web.tests.resources.ResourcesLoader;
 
 @Component
 @Scope("application")
 @PropertySource("classpath:properties/file-location.properties")
-public class VocabularyFactoryImpl implements VocabularyFactory {
+public class AbstractVocabularyFactoryImpl implements AbstractVocabularyFactory {
 
 	@Autowired
 	ResourcesLoader resourcesLoader;
@@ -30,49 +32,34 @@ public class VocabularyFactoryImpl implements VocabularyFactory {
 	@Autowired
 	private Environment env;
 
-	private EnumMap<Formats, EnumMap<Versions, Vocabulary>> vocabularyPool;
+	@Autowired
+	XmlVocabularyFactoryImpl xmlVocabularyfactory;
+
+	@Autowired
+	SkosVocabularyFactoryImpl skosVocabularyfactory;
+
+	private EnumMap<Formats, EnumMap<Versions, Vocabulary>> vocabularyPool = new EnumMap<>(Formats.class);;
 
 	@Override
 	public Vocabulary get(Formats format, Versions version) throws MissingResourceException {
-		if (null == vocabularyPool) {
-			vocabularyPool = new EnumMap<>(Formats.class);
-		}
 		if (!vocabularyPool.containsKey(format)) {
 			vocabularyPool.put(format, new EnumMap<Versions, Vocabulary>(Versions.class));
 		}
 		if (vocabularyPool.get(format).containsKey(version)) {
 			return vocabularyPool.get(format).get(version);
 		}
-		Vocabulary vocabulary;
-		Model model = ModelFactory.createDefaultModel();
-		String inputFileName;
-		String inputFileNameProperty = String.format("%s.%s", format, version);
-		inputFileName = env.getProperty(inputFileNameProperty);
-
-		if (StringUtils.isEmpty(inputFileName)) {
-			throw new MissingResourceException(
-					"Aucun fichier n'est fourni pour le format " + format + " et la version " + version + ".");
-		}
+		VocabularyFactory factory;
 		switch (format) {
-		case RDF:
-			vocabulary = new RdfVocabulary();
-			break;
 		case SKOS:
-			vocabulary = new SkosVocabulary();
+			factory = skosVocabularyfactory;
 			break;
 		case XML:
-			vocabulary = new XmlVocabulary();
+			factory = xmlVocabularyfactory;
 			break;
 		default:
-			throw new MissingResourceException("Format " + format + " is not implemnted ");
+			throw new MissingResourceException("Le format " + format + " n'est pas implémenté.");
 		}
-		InputStream in = resourcesLoader.loadResource(inputFileName);
-		if (null == in) {
-			throw new MissingResourceException(
-					"File " + inputFileName + " is missing for vocabulary identifier" + format.toString());
-		}
-		model.read(in, null);
-		vocabulary.setModel(model);
+		Vocabulary vocabulary = factory.get(format, version);
 		vocabularyPool.get(format).put(version, vocabulary);
 		return vocabulary;
 	}

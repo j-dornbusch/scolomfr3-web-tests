@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.VocabularyFactory;
+import scolomfr.web.tests.model.vocabulary.AbstractVocabularyFactory;
 import scolomfr.web.tests.resources.MissingResourceException;
 
 @Controller
 public class SearchControler {
 
 	@Autowired
-	private VocabularyFactory vocabularyFactory;
+	private AbstractVocabularyFactory vocabularyFactory;
 
 	@RequestMapping("/search")
 	public String displaySearchPage(@RequestParam(name = "query", required = false, defaultValue = "") String query,

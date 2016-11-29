@@ -1,15 +1,16 @@
 package scolomfr.web.tests.model.vocabulary.xml;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.jena.rdf.model.Resource;
+import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.vocabulary.AbstractVocabulary;
 
+@Component
 public class XmlVocabulary extends AbstractVocabulary {
 
 	@Override
@@ -26,12 +27,6 @@ public class XmlVocabulary extends AbstractVocabulary {
 
 	@Override
 	public List<Pair<String, String>> getRevertedBroaderRelations() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Pair<String, String>> getMissingNarrowerRelations() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -66,5 +61,10 @@ public class XmlVocabulary extends AbstractVocabulary {
 		return null;
 	}
 
+	@Override
+	public String prefLabelWithUri(Resource resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

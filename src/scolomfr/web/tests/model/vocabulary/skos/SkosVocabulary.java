@@ -8,10 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.query.Query;
@@ -29,14 +26,13 @@ import org.apache.jena.rdf.model.Selector;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.util.iterator.ExtendedIterator;
-
-import com.atlascopco.hunspell.Hunspell;
+import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.utils.Tree.Node;
 import scolomfr.web.tests.model.vocabulary.AbstractVocabulary;
 
+@Component
 public class SkosVocabulary extends AbstractVocabulary {
 
 	/*
@@ -233,61 +229,11 @@ public class SkosVocabulary extends AbstractVocabulary {
 		return revertedRelations;
 	}
 
-	private String prefLabelWithUri(Resource resource) {
+	@Override
+	public String prefLabelWithUri(Resource resource) {
 		return getPrefLabelForResource(resource) + "§" + resource.getURI();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#
-	 * getMissingNarrowerRelations()
-	 */
-	@Override
-	public List<Pair<String, String>> getMissingNarrowerRelations() {
-		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
-		Property narrower = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "narrower");
-		Selector broaderSelector = new SimpleSelector(null, broader, (RDFNode) null);
-		List<Pair<String, String>> missingRelations = new ArrayList<>();
-		StmtIterator stmts = getModel().listStatements(broaderSelector);
-		while (stmts.hasNext()) {
-			Statement statement = (Statement) stmts.next();
-			Selector narrowerSelector = new SimpleSelector((Resource) statement.getObject(), narrower,
-					statement.getSubject());
-			StmtIterator stmts2 = getModel().listStatements(narrowerSelector);
-			if (!stmts2.hasNext()) {
-				missingRelations.add(new ImmutablePair<String, String>(
-						prefLabelWithUri((Resource) statement.getObject()), prefLabelWithUri(statement.getSubject())));
-			}
-		}
-		return missingRelations;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see scolomfr.web.tests.model.vocabulary.Vocabulary#
-	 * getMissingBroaderRelations()
-	 */
-	@Override
-	public List<Pair<String, String>> getMissingBroaderRelations() {
-		Property broader = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "broader");
-		Property narrower = getModel().getProperty("http://www.w3.org/2004/02/skos/core#", "narrower");
-		Selector narrowerSelector = new SimpleSelector(null, narrower, (RDFNode) null);
-		List<Pair<String, String>> missingRelations = new ArrayList<>();
-		StmtIterator stmts = getModel().listStatements(narrowerSelector);
-		while (stmts.hasNext()) {
-			Statement statement = (Statement) stmts.next();
-			Selector broaderSelector = new SimpleSelector((Resource) statement.getObject(), broader,
-					statement.getSubject());
-			StmtIterator stmts2 = getModel().listStatements(broaderSelector);
-			if (!stmts2.hasNext()) {
-				missingRelations.add(new ImmutablePair<String, String>(
-						prefLabelWithUri((Resource) statement.getObject()), prefLabelWithUri(statement.getSubject())));
-			}
-		}
-		return missingRelations;
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -362,6 +308,5 @@ public class SkosVocabulary extends AbstractVocabulary {
 		}
 		return list;
 	}
-
 
 }
