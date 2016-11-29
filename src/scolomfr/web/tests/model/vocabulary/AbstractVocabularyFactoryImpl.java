@@ -3,9 +3,7 @@ package scolomfr.web.tests.model.vocabulary;
 import java.util.EnumMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.vocabulary.skos.algorithm.SkosVocabularyFactoryImpl;
@@ -15,14 +13,10 @@ import scolomfr.web.tests.resources.ResourcesLoader;
 
 @Component
 @Scope("application")
-@PropertySource("classpath:properties/file-location.properties")
 public class AbstractVocabularyFactoryImpl implements AbstractVocabularyFactory {
 
 	@Autowired
 	ResourcesLoader resourcesLoader;
-
-	@Autowired
-	private Environment env;
 
 	@Autowired
 	XmlVocabularyFactoryImpl xmlVocabularyfactory;

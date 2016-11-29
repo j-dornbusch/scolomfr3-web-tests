@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
 import scolomfr.web.tests.model.vocabulary.algorithm.MissingPrefLabelDetector;
 
 @Component
 @PropertySource("classpath:properties/label.properties")
-public class XmlMissingPrefLabelDetectorImpl extends AbstractAlgorithm implements MissingPrefLabelDetector {
+public class XmlMissingPrefLabelDetectorImpl implements MissingPrefLabelDetector {
 
 	@Override
 	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) throws AlgorithmNotImplementedException {

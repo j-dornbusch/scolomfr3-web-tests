@@ -26,7 +26,7 @@ public class SkosAlgorithmFactoryImpl implements AlgorithmFactory {
 	 * getAlgorithm(java.lang.Class)
 	 */
 	@Override
-	public Algorithm getAlgorithm(Class interfaceToImplement) throws AlgorithmNotImplementedException {
+	public Algorithm getAlgorithm(Class<?> interfaceToImplement) throws AlgorithmNotImplementedException {
 		switch (interfaceToImplement.getSimpleName()) {
 		case "DubiousLangStringDetector":
 			return skosDubiouslangStringDetector;

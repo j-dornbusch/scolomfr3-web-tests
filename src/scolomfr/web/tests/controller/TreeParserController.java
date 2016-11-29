@@ -1,6 +1,5 @@
 package scolomfr.web.tests.controller;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import scolomfr.web.tests.model.utils.Tree;
+import scolomfr.web.tests.model.vocabulary.AbstractVocabularyFactory;
 import scolomfr.web.tests.model.vocabulary.Formats;
 import scolomfr.web.tests.model.vocabulary.Versions;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.AbstractVocabularyFactory;
 import scolomfr.web.tests.resources.MissingResourceException;
 
 @Controller

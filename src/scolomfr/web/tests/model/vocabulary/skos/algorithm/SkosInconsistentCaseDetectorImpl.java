@@ -15,11 +15,10 @@ import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.utils.Tree;
 import scolomfr.web.tests.model.utils.Tree.Node;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
 
 @Component
-public class SkosInconsistentCaseDetectorImpl extends AbstractAlgorithm implements InconsistentCaseDetector {
+public class SkosInconsistentCaseDetectorImpl implements InconsistentCaseDetector {
 
 	@Autowired
 	Environment env;

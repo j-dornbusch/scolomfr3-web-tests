@@ -17,18 +17,16 @@ import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.atlascopco.hunspell.Hunspell;
 
 import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
 
 @Component
-public class SkosDubiouslangStringDetectorImpl extends AbstractAlgorithm implements DubiousLangStringDetector {
+public class SkosDubiouslangStringDetectorImpl implements DubiousLangStringDetector {
 
 	@Override
 	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) {

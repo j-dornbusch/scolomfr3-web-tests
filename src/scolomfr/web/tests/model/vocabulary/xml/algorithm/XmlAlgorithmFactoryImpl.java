@@ -1,7 +1,6 @@
 package scolomfr.web.tests.model.vocabulary.xml.algorithm;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.model.vocabulary.algorithm.Algorithm;
@@ -27,7 +26,7 @@ public class XmlAlgorithmFactoryImpl implements AlgorithmFactory {
 	 * getAlgorithm(java.lang.Class)
 	 */
 	@Override
-	public Algorithm getAlgorithm(Class interfaceToImplement) throws AlgorithmNotImplementedException {
+	public Algorithm getAlgorithm(Class<?> interfaceToImplement) throws AlgorithmNotImplementedException {
 		switch (interfaceToImplement.getSimpleName()) {
 		case "DubiousLangStringDetector":
 			return xmlDubiouslangStringDetector;

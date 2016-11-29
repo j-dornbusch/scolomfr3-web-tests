@@ -33,6 +33,7 @@ public class HierarchicalGraphController {
 	public ModelAndView graphAnalysis() throws MissingResourceException, AlgorithmNotImplementedException {
 		MissingRelationDetector missingRelationDetector = (MissingRelationDetector) algorithmFactory()
 				.getAlgorithm(MissingRelationDetector.class);
+		@SuppressWarnings("unchecked")
 		Result<Map<String, List<Pair<String, String>>>> missingRelations = (Result<Map<String, List<Pair<String, String>>>>) getCurrentVocabulary()
 				.apply(missingRelationDetector);
 		ModelAndView modelAndView = new ModelAndView("scolomfr3-graphs");

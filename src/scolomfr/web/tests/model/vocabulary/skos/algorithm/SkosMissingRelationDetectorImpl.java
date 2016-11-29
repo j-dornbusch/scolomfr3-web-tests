@@ -18,12 +18,11 @@ import org.springframework.stereotype.Component;
 
 import scolomfr.web.tests.controller.response.Result;
 import scolomfr.web.tests.model.vocabulary.Vocabulary;
-import scolomfr.web.tests.model.vocabulary.algorithm.AbstractAlgorithm;
 import scolomfr.web.tests.model.vocabulary.algorithm.AlgorithmNotImplementedException;
 import scolomfr.web.tests.model.vocabulary.algorithm.MissingRelationDetector;
 
 @Component
-public class SkosMissingRelationDetectorImpl extends AbstractAlgorithm implements MissingRelationDetector {
+public class SkosMissingRelationDetectorImpl implements MissingRelationDetector {
 	private Property broader;
 	private Property narrower;
 

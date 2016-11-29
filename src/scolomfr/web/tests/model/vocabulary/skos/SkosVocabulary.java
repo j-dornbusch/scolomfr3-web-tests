@@ -137,7 +137,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 	public Tree<Pair<String, String>> getTreeForUri(String uri, boolean useMember) {
 		Resource resource = getModel().getResource(uri);
 		String label = getPrefLabelForResource(resource);
-		Pair<String, String> rootData = new ImmutablePair<String, String>(uri, label);
+		Pair<String, String> rootData = new ImmutablePair<>(uri, label);
 		Tree<Pair<String, String>> tree = new Tree<>(rootData);
 		List<Resource> children = getChildrenOfResource(resource, useMember);
 		addChildrenRecursively(children, tree.getRoot());
@@ -175,9 +175,9 @@ public class SkosVocabulary extends AbstractVocabulary {
 	private void addChildrenRecursively(List<Resource> children, Node<Pair<String, String>> parent) {
 		Iterator<Resource> it = children.iterator();
 		while (it.hasNext()) {
-			Resource child = (Resource) it.next();
+			Resource child = it.next();
 			String label = getPrefLabelForResource(child);
-			Pair<String, String> data = new ImmutablePair<String, String>(child.getURI().toString(), label);
+			Pair<String, String> data = new ImmutablePair<>(child.getURI(), label);
 
 			Node<Pair<String, String>> childNode = new Node<>();
 			childNode.setdata(data);
@@ -217,7 +217,7 @@ public class SkosVocabulary extends AbstractVocabulary {
 		List<Pair<String, String>> revertedRelations = new ArrayList<>();
 		StmtIterator stmts = getModel().listStatements(reverseSelector);
 		while (stmts.hasNext()) {
-			Statement statement = (Statement) stmts.next();
+			Statement statement = stmts.next();
 			Selector broaderSelector = new SimpleSelector((Resource) statement.getObject(), predicate,
 					statement.getSubject());
 			StmtIterator stmts2 = getModel().listStatements(broaderSelector);
@@ -233,7 +233,6 @@ public class SkosVocabulary extends AbstractVocabulary {
 	public String prefLabelWithUri(Resource resource) {
 		return getPrefLabelForResource(resource) + "§" + resource.getURI();
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -308,6 +307,5 @@ public class SkosVocabulary extends AbstractVocabulary {
 		}
 		return list;
 	}
-
 
 }
