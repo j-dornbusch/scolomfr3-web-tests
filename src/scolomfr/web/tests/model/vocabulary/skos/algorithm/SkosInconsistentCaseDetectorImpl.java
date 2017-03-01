@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import scolomfr.web.tests.model.vocabulary.Vocabulary;
 import scolomfr.web.tests.model.vocabulary.algorithm.InconsistentCaseDetector;
 
 @Component
+@PropertySource("classpath:properties/label.properties")
 public class SkosInconsistentCaseDetectorImpl implements InconsistentCaseDetector {
 
 	@Autowired

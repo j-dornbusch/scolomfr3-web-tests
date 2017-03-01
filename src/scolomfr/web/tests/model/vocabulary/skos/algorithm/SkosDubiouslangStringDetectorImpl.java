@@ -17,6 +17,8 @@ import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.atlascopco.hunspell.Hunspell;
@@ -27,6 +29,7 @@ import scolomfr.web.tests.model.vocabulary.algorithm.DubiousLangStringDetector;
 
 @Component
 public class SkosDubiouslangStringDetectorImpl implements DubiousLangStringDetector {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public Result<Map<String, List<String>>> analyse(Vocabulary vocabulary) {
@@ -64,7 +67,7 @@ public class SkosDubiouslangStringDetectorImpl implements DubiousLangStringDetec
 			String label = labelLit.getString();
 			Matcher matcher = abbreviationsPattern.matcher(label);
 			if (matcher.find()) {
-				System.out.println(label + " est une abbréviation");
+				logger.debug("{} est une abbréviation", label);
 				continue;
 			}
 			label = StringUtils.replace(label, "(", " ");

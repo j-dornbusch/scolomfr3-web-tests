@@ -5,7 +5,10 @@ import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,7 @@ import scolomfr.web.tests.resources.MissingResourceException;
 import scolomfr.web.tests.resources.ResourcesLoader;
 
 @Component
+@PropertySource("classpath:properties/file-location.properties")
 public class SkosVocabularyFactoryImpl implements VocabularyFactory {
 
 	@Autowired
@@ -29,6 +33,8 @@ public class SkosVocabularyFactoryImpl implements VocabularyFactory {
 	@Autowired
 	private SkosVocabulary skosVocabulary;
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Override
 	public Vocabulary get(Formats format, Versions version) throws MissingResourceException {
 		Model model = ModelFactory.createDefaultModel();
@@ -39,7 +45,7 @@ public class SkosVocabularyFactoryImpl implements VocabularyFactory {
 			throw new MissingResourceException(
 					"Aucun fichier n'est fourni pour le format " + format + " et la version " + version + ".");
 		}
-
+		logger.info("Chargement du fichier {}", inputFileName);
 		InputStream in = resourcesLoader.loadResource(inputFileName);
 		if (null == in) {
 			throw new MissingResourceException(
